@@ -3,8 +3,7 @@
 > **Modified version.** Thryve is a rebranded, modified fork of
 > [SeedyPod](https://github.com/seedypod) by Jonathan Ng and the SeedyPod contributors.
 > This site is forked from [seedypod/seedypod.github.io](https://github.com/seedypod/seedypod.github.io);
-> see [NOTICE](NOTICE). Screenshots and the overview video were captured from SeedyPod
-> before the rebrand and still show its name until they are recaptured.
+> see [NOTICE](NOTICE). Screenshots and the overview video are from a current Thryve demo build.
 
 Nextra + Next.js static export, served at https://kaniick.github.io/Thryve-docs/ (a GitHub Pages project site, so everything lives under the `/Thryve-docs` base path; `site.config.mjs` sets it, and `BASE_PATH=` builds for a root domain). Modeled on [sleepypod.github.io](https://github.com/sleepypod/sleepypod.github.io).
 
