@@ -15,8 +15,7 @@ export default function Home() {
         </Link>
         <nav aria-label="Main navigation">
           <Link href="/getting-started/">Documentation</Link>
-          <a href="https://seedypod.vercel.app">Live demo</a>
-          <a className="github-link" href="https://github.com/kaniick" aria-label="GitHub">
+          <a className="github-link" href="https://github.com/kaniick/Thryve" aria-label="GitHub">
             <GitHubIcon aria-hidden="true" focusable="false" />
             <span className="link-label">GitHub</span>
           </a>
@@ -43,9 +42,9 @@ export default function Home() {
               <Link className="button primary" href="/getting-started/">
                 Get started <LinkArrow />
               </Link>
-              <a className="button secondary" href="https://seedypod.vercel.app">
-                Try the live demo <LinkArrow direction="external" />
-              </a>
+              <Link className="button secondary" href="/core/installation/">
+                Install on a Gardyn <LinkArrow />
+              </Link>
             </div>
             <p className="hero-note">
               Open source · AGPL-3.0 · Sibling of{' '}
@@ -91,11 +90,11 @@ export default function Home() {
               a grow cycle, and scrub through camera timelapses. No account required.
             </p>
             <div className="showcase-links">
-              <a className="text-link" href="https://seedypod.vercel.app">
-                Try the live demo <LinkArrow direction="external" />
-              </a>
               <Link className="text-link" href="/core/web-ui/">
                 Tour the web UI <LinkArrow />
+              </Link>
+              <Link className="text-link" href="/getting-started/">
+                Run it on your computer <LinkArrow />
               </Link>
             </div>
           </div>
@@ -243,12 +242,15 @@ Order summary:
         <section className="start-section">
           <p className="eyebrow">YOUR NEXT HARVEST STARTS HERE</p>
           <h2>Bring your tower home.</h2>
-          <p>Try the demo, then follow the install guide when you are ready to open the base.</p>
+          <p>
+            Run it on your computer, then follow the install guide when you are ready to open the
+            base.
+          </p>
           <Link className="button primary" href="/getting-started/">
             Get started <LinkArrow />
           </Link>
           <div className="quick-links">
-            <a href="https://seedypod.vercel.app">Live demo</a>
+            <Link href="/core/installation/">Install</Link>
             <Link href="/core/debugging/">Debugging</Link>
             <Link href="/developers/">Developer reference</Link>
             <Link href="/about/">About the project</Link>
