@@ -11,10 +11,10 @@ export const metadata: Metadata = {
   openGraph: { siteName: 'Thryve', type: 'website' },
   icons: {
     icon: [
-      { url: asset('/brand/icon-32.png'), sizes: '32x32', type: 'image/png' },
-      { url: asset('/brand/icon-192.png'), sizes: '192x192', type: 'image/png' },
+      { url: asset('/brand/thryve-icon-32.png'), sizes: '32x32', type: 'image/png' },
+      { url: asset('/brand/thryve-icon-192.png'), sizes: '192x192', type: 'image/png' },
     ],
-    apple: [{ url: asset('/brand/icon-180.png'), sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: asset('/brand/thryve-icon-180.png'), sizes: '180x180', type: 'image/png' }],
   },
 }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
