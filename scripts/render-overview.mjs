@@ -207,7 +207,7 @@ await still(
   {
     kicker: 'BRING YOUR TOWER HOME',
     title: ['Try it.', 'Grow your own.'],
-    body: ['Explore the live demo.', 'Read the install guide.', 'kaniick.github.io/Thryve-docs'],
+    body: ['Run it on your computer.', 'Read the install guide.', 'kaniick.github.io/Thryve-docs'],
   },
   4,
   'grow-start.png',

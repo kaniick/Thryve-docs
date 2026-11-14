@@ -50,7 +50,7 @@ pnpm check
 
 ## Media
 
-`public/brand/` holds the official Thryve icon (favicon and apple-touch icon) and the horizontal wordmark in light and dark variants (same official art, white wordmark on black, sized for each theme path); they are stored in Git LFS. `public/media/` holds real web UI screenshots captured from core's demo build (`VITE_DEMO=1`, simulated tower). The `ios-*.png` screenshots come from [kaniick/Thryve-ios](https://github.com/kaniick/Thryve-ios)'s demo mode in the iPhone 17 Pro simulator, resized to 552x1200 with `sips -Z 1200`. `capture/manifest.json` records the source commit, method, dimensions and SHA-256 of each file; `pnpm media:verify` checks them. To recapture:
+`public/brand/` holds the official Thryve icon (favicon and apple-touch icon) and the horizontal wordmark in light and dark variants (official art on a transparent background: white wordmark for dark backgrounds, dark wordmark for light); they are stored in Git LFS. `public/media/` holds real web UI screenshots captured from core's demo build (`VITE_DEMO=1`, simulated tower). The `ios-*.png` screenshots come from [kaniick/Thryve-ios](https://github.com/kaniick/Thryve-ios)'s demo mode in the iPhone 17 Pro simulator, resized to 552x1200 with `sips -Z 1200`. `capture/manifest.json` records the source commit, method, dimensions and SHA-256 of each file; `pnpm media:verify` checks them. To recapture:
 
 ```sh
 # in a core checkout at the pinned commit

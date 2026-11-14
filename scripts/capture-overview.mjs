@@ -144,7 +144,7 @@ try {
 
   await record('grow', '/grow', async (page) => {
     const main = page.getByRole('main')
-    const pod = main.getByRole('button', { name: '7 Genovese Basil' })
+    const pod = main.getByRole('button', { name: '7 Basil' })
     await point(page, pod)
     await pod.click()
     const panel = main.getByRole('complementary', { name: 'Pod 7' })
@@ -180,18 +180,15 @@ try {
 
   await record('water', '/water', async (page) => {
     const main = page.getByRole('main')
-    // The demo build doesn't run the simulated pump, so the scene picks a run length without starting one.
-    const minute = main.getByRole('tab', { name: '1 min', exact: true })
-    await point(page, minute)
-    await minute.click()
-    await page.waitForTimeout(1200)
-    await point(page, main.getByRole('button', { name: /Run pump/ }))
+    // The demo build doesn't run the simulated pump, so the scene points at Run without starting one.
+    const run = main.getByRole('button', { name: 'Run', exact: true })
+    await point(page, run)
     await page.waitForTimeout(1200)
     const month = main.getByRole('tab', { name: '30d', exact: true })
     await point(page, month)
     await month.click()
     await page.waitForTimeout(2600)
-    return { verified: '1 min run length picked; tank history switched to 30 days' }
+    return { verified: 'Run control shown; tank history switched to 30 days' }
   })
 
   await record('autopilot', '/autopilot', async (page) => {

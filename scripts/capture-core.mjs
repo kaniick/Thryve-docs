@@ -117,7 +117,16 @@ const shots = [
         .evaluate((el) => el.scrollIntoView({ block: 'center' }))
     },
   },
-  { route: '/grow', output: 'core-grow.png' },
+  {
+    route: '/grow',
+    output: 'core-grow.png',
+    source: 'route /grow, scrolled to the 30-pod grid',
+    prepare: (page) =>
+      page
+        .getByRole('main')
+        .getByRole('button', { name: '7 Basil' })
+        .evaluate((el) => el.scrollIntoView({ block: 'center' })),
+  },
   { route: '/plan', output: 'core-plan.webp', source: 'route /plan, the 3D tower' },
   { route: '/autopilot', output: 'core-autopilot.png' },
   { route: '/analysis', output: 'core-analysis.png' },

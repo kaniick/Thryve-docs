@@ -62,5 +62,5 @@ Removing the bridge in the Home app from the last home does the same reset on th
 **Camera tiles read No Response, and the other tiles work.** Core before [core #181](https://github.com/kaniick/Thryve/pull/181) (merged November 9, 2026) declared the cameras with only part of what Home expects of a camera: one stream, 15 fps, and no microphone. Home gave up on them without asking for a picture. Update core. On the unit, `journalctl -u thryve-core | grep -i homekit` should then show `image request for Upper camera … bytes` while a camera tile is on screen. If no `image request` line appears at all, Home isn't asking. To see what Home does over HAP, turn on the debug log for up to an hour with `curl -X POST -H content-type:application/json -d '{"minutes":10}' http://<unit>:3000/api/homekit/debug`. Its lines start with `homekit debug:` ([core #182](https://github.com/kaniick/Thryve/issues/182)).
 
 <Callout>
-  HomeKit isn't available in the [live demo](https://seedypod.vercel.app): it runs on the unit.
+  HomeKit isn't available in the in-browser demo build (`VITE_DEMO=1`): it runs on the unit.
 </Callout>
