@@ -2,7 +2,7 @@
   "version": 1,
   "assets": [
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /light, Auto picked and its curve open at the sun settings",
       "output": "core-light-sun.png",
@@ -13,7 +13,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /light, Auto picked, then 50 on the slider (a hold)",
       "output": "core-light-hold.png",
@@ -24,7 +24,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /light, Auto picked on the slider",
       "output": "core-light-auto.png",
@@ -35,7 +35,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /sensors",
       "output": "core-sensors.png",
@@ -46,7 +46,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /status",
       "output": "core-status.png",
@@ -57,7 +57,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /analysis",
       "output": "core-analysis.png",
@@ -68,7 +68,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /autopilot",
       "output": "core-autopilot.png",
@@ -79,7 +79,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /plan, the 3D tower",
       "output": "core-plan.webp",
@@ -90,7 +90,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /, tower zoomed one step",
       "output": "core-home.webp",
@@ -101,7 +101,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /light",
       "output": "core-light.png",
@@ -112,7 +112,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /water",
       "output": "core-water.png",
@@ -123,7 +123,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /light, scrolled to its curves",
       "output": "core-schedule.png",
@@ -134,7 +134,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /grow",
       "output": "core-grow.png",
@@ -145,7 +145,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /cameras",
       "output": "core-cameras.png",
@@ -156,7 +156,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /alerts",
       "output": "core-alerts.png",
@@ -167,7 +167,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "19cfa6e29f05b94885105d8dd9b0e99d048bcb1c",
       "source": "web demo build (VITE_DEMO=1), route /settings",
       "output": "core-settings.png",
@@ -178,7 +178,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), route /kiosk",
       "output": "core-kiosk.png",
@@ -189,11 +189,11 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), overview tour",
-      "output": "seedypod-overview.mp4",
-      "method": "scripts/capture-overview.mjs + scripts/render-overview.mjs; scripts/capture-overview.mjs; core web demo build (VITE_DEMO=1) with the in-browser simulated tower; loopback only, off-origin requests blocked; Playwright 1440x1000 video, dark, GPU WebGL; original chapter typography and the repository seedypod logo around unchanged UI recordings",
+      "output": "thryve-overview.mp4",
+      "method": "scripts/capture-overview.mjs + scripts/render-overview.mjs; scripts/capture-overview.mjs; core web demo build (VITE_DEMO=1) with the in-browser simulated tower; loopback only, off-origin requests blocked; Playwright 1440x1000 video, dark, GPU WebGL; original chapter typography and the repository thryve logo around unchanged UI recordings",
       "sha256": "bcb7b588fe25487c3bd8d1da058fb62eec43c52c8198656bbc5f4fa519fa7c59",
       "bytes": 1685821,
       "width": 1920,
@@ -201,18 +201,18 @@
       "durationSeconds": 52.4
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "c84a95977ebcc2f0343d02c214d55d896b54966f",
       "source": "web demo build (VITE_DEMO=1), overview tour",
-      "output": "seedypod-overview.png",
-      "method": "scripts/capture-overview.mjs + scripts/render-overview.mjs; scripts/capture-overview.mjs; core web demo build (VITE_DEMO=1) with the in-browser simulated tower; loopback only, off-origin requests blocked; Playwright 1440x1000 video, dark, GPU WebGL; original chapter typography and the repository seedypod logo around unchanged UI recordings",
+      "output": "thryve-overview.png",
+      "method": "scripts/capture-overview.mjs + scripts/render-overview.mjs; scripts/capture-overview.mjs; core web demo build (VITE_DEMO=1) with the in-browser simulated tower; loopback only, off-origin requests blocked; Playwright 1440x1000 video, dark, GPU WebGL; original chapter typography and the repository thryve logo around unchanged UI recordings",
       "sha256": "1083ca8ae3362cfc266ea5a9083e545bb5de8035924675c0b7156f39a9aa3a26",
       "bytes": 347248,
       "width": 1920,
       "height": 1080
     },
     {
-      "repository": "seedypod/ios",
+      "repository": "kaniick/Thryve-ios",
       "commit": "db6746eba3718949943dcf99c98d42d6196bf4f2",
       "source": "iOS app demo mode (simulated tower, day 19), Home, the tower in 3D",
       "output": "ios-home.png",
@@ -223,7 +223,7 @@
       "height": 1200
     },
     {
-      "repository": "seedypod/ios",
+      "repository": "kaniick/Thryve-ios",
       "commit": "db6746eba3718949943dcf99c98d42d6196bf4f2",
       "source": "iOS app demo mode (simulated tower, day 19), Home with the Pod 2 card open (ready to harvest)",
       "output": "ios-pod.png",
@@ -234,7 +234,7 @@
       "height": 1200
     },
     {
-      "repository": "seedypod/ios",
+      "repository": "kaniick/Thryve-ios",
       "commit": "1cc639bd10ec37edf882e054ebc39aaf6be72374",
       "source": "iOS app demo mode (simulated tower, day 19), Home with the Grow light sheet open",
       "output": "ios-light.png",
@@ -245,7 +245,7 @@
       "height": 1200
     },
     {
-      "repository": "seedypod/ios",
+      "repository": "kaniick/Thryve-ios",
       "commit": "1cc639bd10ec37edf882e054ebc39aaf6be72374",
       "source": "iOS app demo mode (simulated tower, day 19), Home with the Water sheet open",
       "output": "ios-water.png",
@@ -256,7 +256,7 @@
       "height": 1200
     },
     {
-      "repository": "seedypod/ios",
+      "repository": "kaniick/Thryve-ios",
       "commit": "db6746eba3718949943dcf99c98d42d6196bf4f2",
       "source": "iOS app demo mode (simulated tower, day 19), connect screen",
       "output": "ios-connect.png",
@@ -267,9 +267,9 @@
       "height": 1200
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "531ca8b58d4ac0ccd9d09ada35671f70029e8cef",
-      "source": "Raspberry Pi Imager 2.0.12, custom seedypod repository, device selection",
+      "source": "Raspberry Pi Imager 2.0.12, custom thryve repository, device selection",
       "output": "install-imager-device.png",
       "method": "Owner-supplied macOS screenshot, 2026-11-06 America/Los_Angeles; original PNG copied unchanged",
       "sha256": "3e4042e1e336685705838d83be83eaddfaf7cb52cf3b61f1b99da369213f1a97",
@@ -278,9 +278,9 @@
       "height": 1188
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "531ca8b58d4ac0ccd9d09ada35671f70029e8cef",
-      "source": "Raspberry Pi Imager 2.0.12, seedypod OS selection",
+      "source": "Raspberry Pi Imager 2.0.12, thryve OS selection",
       "output": "install-imager-os.png",
       "method": "Owner-supplied macOS screenshot, 2026-11-06 America/Los_Angeles; original PNG copied unchanged",
       "sha256": "6f0c7d83cfbc4f9e4b7e95097cbe01393e3d427395092b96b217c6cdd1e4d7d1",
@@ -289,7 +289,7 @@
       "height": 1188
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "531ca8b58d4ac0ccd9d09ada35671f70029e8cef",
       "source": "Real Pi SSH login banner",
       "output": "install-ssh-login.png",
@@ -300,7 +300,7 @@
       "height": 1430
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "0808f919c1aa7a808ff77ab99828900e899a7659",
       "source": "local core (simulated HAL, fresh data dir, light set to 85 %), Plan screen, 3D, with the saved plan for that order open; the plan was made over MCP (content/core/mcp.mdx, Plan from an order)",
       "output": "mcp-order-plan-3d.webp",
@@ -311,7 +311,7 @@
       "height": 2000
     },
     {
-      "repository": "seedypod/core",
+      "repository": "kaniick/Thryve",
       "commit": "0808f919c1aa7a808ff77ab99828900e899a7659",
       "source": "local core (simulated HAL, fresh data dir, light set to 85 %), Plan screen, 2D, with the saved plan for that order open; the plan was made over MCP (content/core/mcp.mdx, Plan from an order)",
       "output": "mcp-order-plan-2d.png",

@@ -5,7 +5,7 @@ description: 'Two tiers joined by a versioned contract, one control plane with s
 
 # Architecture
 
-seedypod is two programs with a small, versioned contract between them.
+Thryve is two programs with a small, versioned contract between them.
 
 <div className="docs-diagram">
 
@@ -19,7 +19,7 @@ flowchart TB
     Scripts[REST clients]
     HA[Home Assistant]
   end
-  subgraph core [seedypod core · TypeScript]
+  subgraph core [thryve core · TypeScript]
     TRPC[tRPC routers]
     Sched[Scheduler · grow cycle · alerts]
     Store[(SQLite store)]

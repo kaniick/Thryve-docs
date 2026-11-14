@@ -7,34 +7,34 @@ import { Callout } from 'nextra/components'
 
 # Handoff
 
-Updated 2026-10-31 after the move to `github.com/seedypod/core` (from `ng/leafypod`; renamed to seedypod, see the ADR-0001 amendment). `dev` carries the full software stack, including the `dose_fault` alert and EZO calibration. `main` is promoted from `dev` by a `feat:` PR that cuts the first full-stack release.
+Updated 2026-10-31 after the move to `github.com/kaniick/Thryve` (from `ng/leafypod`; renamed to Thryve, see the ADR-0001 amendment). `dev` carries the full software stack, including the `dose_fault` alert and EZO calibration. `main` is promoted from `dev` by a `feat:` PR that cuts the first full-stack release.
 
 ## 1. What exists
 
-| Area                     | State                                                                                                                                                                                                                           | Verified by                                                                                     |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Repo conventions         | dev→main, PR title gate, semantic-release, back-merge, dev-latest, Codecov flags, Renovate, Stryker, Vercel workflow, OKF validator                                                                                             | 11 workflows; v1.0.0 released with `hald` binaries + tarball                                    |
-| Rust HAL (`hal/`)        | `hal-core` (contract, traits, `PumpGuard`, `DoseGuard`, derived sensors), `hal-drivers` (all documented parts + EZO pH/EC/RTD + dosing, behind `hardware`), `hal-sim`, `hald` (MQTT, HA discovery, HTTP, mDNS, state file, CLI) | 148 tests; end-to-end run against Mosquitto; CI cross-builds armv6 + aarch64                    |
-| Core (`server/`, `src/`) | Hono + tRPC + OpenAPI + MCP + WS; `Store` (SQLite/drizzle + memory); scheduler, grow cycle, recorder, captures, vision, HA bridge, API key; `MqttHalClient`                                                                     | 86 vitest (unit + integration)                                                                  |
-| Web (`web/`)             | 8 screens + `/kiosk` on the [sleepypod](https://sleepypod.github.io/) design system; seeded in-browser demo (`VITE_DEMO=1`)                                                                                                     | 6 Playwright e2e over the built server; all routes rendered headlessly with zero console errors |
-| Docs                     | `docs/` (OKF concepts: ADRs 0001–0016, guides, HAL reference, HA examples, plan, this handoff) and `knowledge/` (4); published at [seedypod.github.io](https://seedypod.github.io) from `seedypod/seedypod.github.io`           | `scripts/validate_knowledge.py` in CI                                                           |
-| Org                      | `seedypod/.github` profile README; avatar source (`assets/avatar.svg`, sleepypod-style render)                                                                                                                                  | —                                                                                               |
+| Area                     | State                                                                                                                                                                                                                                | Verified by                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| Repo conventions         | dev→main, PR title gate, semantic-release, back-merge, dev-latest, Codecov flags, Renovate, Stryker, Vercel workflow, OKF validator                                                                                                  | 11 workflows; v1.0.0 released with `hald` binaries + tarball                                    |
+| Rust HAL (`hal/`)        | `hal-core` (contract, traits, `PumpGuard`, `DoseGuard`, derived sensors), `hal-drivers` (all documented parts + EZO pH/EC/RTD + dosing, behind `hardware`), `hal-sim`, `hald` (MQTT, HA discovery, HTTP, mDNS, state file, CLI)      | 148 tests; end-to-end run against Mosquitto; CI cross-builds armv6 + aarch64                    |
+| Core (`server/`, `src/`) | Hono + tRPC + OpenAPI + MCP + WS; `Store` (SQLite/drizzle + memory); scheduler, grow cycle, recorder, captures, vision, HA bridge, API key; `MqttHalClient`                                                                          | 86 vitest (unit + integration)                                                                  |
+| Web (`web/`)             | 8 screens + `/kiosk` on the [sleepypod](https://sleepypod.github.io/) design system; seeded in-browser demo (`VITE_DEMO=1`)                                                                                                          | 6 Playwright e2e over the built server; all routes rendered headlessly with zero console errors |
+| Docs                     | `docs/` (OKF concepts: ADRs 0001–0016, guides, HAL reference, HA examples, plan, this handoff) and `knowledge/` (4); published at [kaniick.github.io/Thryve-docs](https://kaniick.github.io/Thryve-docs/) from `kaniick/Thryve-docs` | `scripts/validate_knowledge.py` in CI                                                           |
+| Org                      | `kaniick/.github` profile README; avatar source (`assets/avatar.svg`, sleepypod-style render)                                                                                                                                        | —                                                                                               |
 
 **Simulated Phase 1 done:** [`pnpm test:sim-bringup`](/developers/sim-bringup/) runs the full stack against `hald --sim` over MQTT in CI (19 checks, including a backup → wipe → restore round trip). It caught a subscribe race that would have kept core from ever seeing a real `hald`.
 
-**Not done, needs hardware (Phase 1 / 2.10):** at this pause nothing had run on a real Gardyn. The pin map, I²C addresses, driver timing/CRCs, INA219 calibration, button/GPIO25 polarity, PWM overlay line, camera exposure and the install scripts' Raspberry Pi OS steps are all documented assumptions. **Status update (2026-11-09):** the bring-up in section 7 confirmed the install scripts and seedypod OS on Raspberry Pi OS trixie, the PWM overlay and light, the I²C sensors, GPIO25 (active low) and both cameras. INA219 calibration, the button and the water level against water are still unconfirmed, and the pump hasn't run. The checklist is in `docs/hardware/pin-map.md`; the per-driver list is at the end of `docs/hardware/hal.md`.
+**Not done, needs hardware (Phase 1 / 2.10):** at this pause nothing had run on a real Gardyn. The pin map, I²C addresses, driver timing/CRCs, INA219 calibration, button/GPIO25 polarity, PWM overlay line, camera exposure and the install scripts' Raspberry Pi OS steps are all documented assumptions. **Status update (2026-11-09):** the bring-up in section 7 confirmed the install scripts and Thryve OS on Raspberry Pi OS trixie, the PWM overlay and light, the I²C sensors, GPIO25 (active low) and both cameras. INA219 calibration, the button and the water level against water are still unconfirmed, and the pump hasn't run. The checklist is in `docs/hardware/pin-map.md`; the per-driver list is at the end of `docs/hardware/hal.md`.
 
 **Known deliberate limits:** `hald` MQTT is plain TCP (LAN-only); over-temp uses a single threshold plus the GPIO25 line (latch provides anti-flap); the Next.js memory spike (plan 0.0) was not run — the plan is built on the Hono/Vite outcome.
 
 ## 2. Transfer (done 2026-10-31)
 
-The repo moved from `ng/leafypod` to `seedypod/core` (GitHub redirects the old URLs) and the project was renamed to **seedypod** throughout: package, crates, MQTT prefix, mDNS service, install paths and `SEEDYPOD_*` installer variables. Re-attach the Claude GitHub App on the `seedypod` org if you want pushes from Claude sessions.
+The repo moved from `ng/leafypod` to `kaniick/Thryve` (GitHub redirects the old URLs) and the project was renamed to **Thryve** throughout: package, crates, MQTT prefix, mDNS service, install paths and `THRYVE_*` installer variables. Re-attach the Claude GitHub App on the `thryve` org if you want pushes from Claude sessions.
 
 ## 3. Destination settings (applied via the API)
 
 - Default branch **`dev`**. Rulesets `Dev` (default branch, merge queue **merge**) and `Main` (`main`, merge queue **squash**, linear history); org admins bypass. Auto-merge on, branches deleted on merge.
 - Required checks on both: `Lint`, `Typecheck`, `Unit Tests`, `Browser Tests`. Left optional on purpose: `fmt + clippy + test` (path-filtered to `hal/**`, so it never reports on TS-only PRs and would block them) and `check-title` (only runs on `pull_request`, never on `merge_group`, so requiring it would stall the queue). Add `codecov/patch` once Codecov reports.
-- Secrets: `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` are real (Vercel project `seedypod-demo` in _therealng's projects_, aliased to `seedypod.vercel.app`). `VERCEL_TOKEN` holds a placeholder; back-merge uses a deploy key (`BACKMERGE_DEPLOY_KEY`, set) — see [Deployment](/developers/deployment/#repository-secrets-and-variables) for where each comes from. Variable `VERCEL_ENABLED=true`, so the demo deploy fails until `VERCEL_TOKEN` is real. Codecov needs no token: coverage uploads authenticate with GitHub OIDC.
+- Secrets: `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` are real (Vercel project `thryve-demo` in _therealng's projects_, aliased to `thryve.vercel.app`). `VERCEL_TOKEN` holds a placeholder; back-merge uses a deploy key (`BACKMERGE_DEPLOY_KEY`, set) — see [Deployment](/developers/deployment/#repository-secrets-and-variables) for where each comes from. Variable `VERCEL_ENABLED=true`, so the demo deploy fails until `VERCEL_TOKEN` is real. Codecov needs no token: coverage uploads authenticate with GitHub OIDC.
 - Labels: `mutation-test`, `dependencies`, `hardware`, `safety`, `security`.
 - Still manual (UI only): install the Codecov and Renovate apps on the org, and upload the org avatar.
 
@@ -55,8 +55,8 @@ On a unit: `scripts/install-hal` then `scripts/install`; set `HAL_MQTT_URL`, `HA
 ## 5. Next steps, in order
 
 1. **Phase 1 on a real unit** (the simulated run is done) — teardown, `dd` the stock card, flash, `hald --check` + `--features hardware` on the unit, confirm the pin map; file ADR-0008 with the real model/controller; mark `knowledge/hardware/*` and `docs/hardware/pin-map.md` as verified. With EZO probes fitted, run the calibration procedure in `docs/hardware/hal.md`.
-2. Replace the placeholder secrets (`VERCEL_TOKEN` and the `MIRROR_TEST_*` R2 set) — tracked in seedypod/core#6 — and install the Mend Renovate app on the org (github.com/apps/renovate); it reads `renovate.json`, no token. The demo at seedypod.vercel.app was first deployed by hand with the Vercel CLI.
-3. iOS: evaluated in [ADR-0017](/developers/adr/0017-ios-client/) — new `seedypod/ios` app reusing [sleepypod](https://sleepypod.github.io/developers/ios/)'s tRPC transport, discovery and stream patterns; first add a `_seedypod._tcp` mDNS advertisement to core.
+2. Replace the placeholder secrets (`VERCEL_TOKEN` and the `MIRROR_TEST_*` R2 set) — tracked in kaniick/Thryve#6 — and install the Mend Renovate app on the org (github.com/apps/renovate); it reads `renovate.json`, no token. The demo at thryve.vercel.app was first deployed by hand with the Vercel CLI.
+3. iOS: evaluated in [ADR-0017](/developers/adr/0017-ios-client/) — new `kaniick/Thryve-ios` app reusing [sleepypod](https://sleepypod.github.io/developers/ios/)'s tRPC transport, discovery and stream patterns; first add a `_thryve._tcp` mDNS advertisement to core.
 4. New probe types (dissolved oxygen, ORP, other vendors): one `SensorKind` impl each (ADR-0018); the Sensors screen and calibration wizard pick them up from the descriptor.
 
 Done since the pause: transfer and rename; repo settings; Vercel project; the `dose_fault` alert kind; the EZO calibration topic; the docs site; the org profile; fixing the crash on first boot when the data directory is missing; adding, calibrating and removing pH/EC/temperature probes from the app (ADR-0018).
@@ -71,7 +71,7 @@ First run on real hardware: a Gardyn 3.0, Pi Zero W Rev 1.1, unit `gardyn-db753a
 
 ### Where it stands
 
-- The unit runs the OS image from `dev-latest`, built at #106, on a 64 GB card. Its login is `seedypod`, and it sits on a separate IoT network at `192.168.2.177`. Later `dev` changes such as #117 aren't on it yet. The tank is empty, so the pump has never run.
+- The unit runs the OS image from `dev-latest`, built at #106, on a 64 GB card. Its login is `thryve`, and it sits on a separate IoT network at `192.168.2.177`. Later `dev` changes such as #117 aren't on it yet. The tank is empty, so the pump has never run.
 - **Open:** #118, bounded automatic reboot when the hub is missing, reviewed at `677377f`, with `codecov/patch` still pending. Hold it until the hub question below is settled. The persistent boot log is written and passing on top of it in the `camera-fix` agent's worktree, unopened.
 - **Release:** `main` is far behind `dev`, and its installer has no ARMv6 path, so a Zero W needs the `dev` commands until `dev` is released. The release is the owner's call.
 
@@ -119,13 +119,13 @@ The cameras sit behind a `1a40:0801` hub on a small `HUB_V1.1` board, fed by an 
 4. Swap the lead for a short micro-USB OTG one. Try the hub on a laptop. Consider a capacitor at `C8` once a meter shows what the pads connect to.
 5. Compare the stock card on this hardware if the above doesn't settle it.
 
-Logs for all of this are in `~/Documents/seedypod/bringup-logs-2026-11-06/`, and photos in `~/Documents/seedypod/doc-screenshots-2026-11-06/` (off-repo; the room shots show the owner's home).
+Logs for all of this are in `~/Documents/thryve/bringup-logs-2026-11-06/`, and photos in `~/Documents/thryve/doc-screenshots-2026-11-06/` (off-repo; the room shots show the owner's home).
 
 ### Smaller follow-ups
 
 - `install --restore` on a unit where core has never run can leave `data/` owned by root: create it as the core account in `finish_prefix`.
 - A failed capture's alert can stay quiet if hald clears `camera_missing` first (`said` in `captures.ts`).
-- The Vercel team is blocked for fair use, so the demo isn't deploying and the `deploy` check fails on every PR. CodeRabbit's included reviews have run out on the `ng/seedypod-core` mirror (`ng/core` is sleepypod's: never push there).
+- The Vercel team is blocked for fair use, so the demo isn't deploying and the `deploy` check fails on every PR. CodeRabbit's included reviews have run out on the `ng/thryve-core` mirror (`ng/core` is sleepypod's: never push there).
 - A Discord write-up was asked for: it needs a channel.
 
 ## 8. Controlled hub comparison (2026-11-07)
@@ -179,7 +179,7 @@ mounted. Do not count it as demonstrated spontaneous recovery.
 
 Raw per-boot JSON (kernel and recovery logs, firmware settings, voltage, USB
 inventory and HAL state), the controller and summary are saved off-repo in
-`~/Documents/seedypod/bringup-logs-2026-11-07/`. The software follow-ups #120 and
+`~/Documents/thryve/bringup-logs-2026-11-07/`. The software follow-ups #120 and
 #121 and installation timings #123 are merged. Boot-log PR #122 and release
 PR #124 remain drafts; the docs site refresh is deployed. The Discord write-up
 is drafted but not posted; no destination channel was supplied.
@@ -188,4 +188,4 @@ is drafted but not posted; no destination channel was supplied.
 
 **Sources:** [Implementation plan](/developers/implementation-plan/) · [hald reference](/developers/hal/) · [Deployment and secrets](/developers/deployment/)
 
-**Imported from** [`docs/HANDOFF.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/HANDOFF.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/HANDOFF.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/HANDOFF.md) in kaniick/Thryve. Edit it there, not here.

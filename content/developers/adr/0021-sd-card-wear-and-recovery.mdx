@@ -44,7 +44,7 @@ That only works if the owner remembered to stop core and take a backup
 - An hourly sample of the flash's sectors-written counter, shown as GB/day
   under **System → Storage**.
 
-seedypod writes far less than a Pod, which streams about 1 GB/day of raw
+Thryve writes far less than a Pod, which streams about 1 GB/day of raw
 frames. Its biggest wins are the system defaults, plus a recovery path that
 needs no shell.
 
@@ -149,7 +149,7 @@ of samples exists, it shows the average since boot. With that
 number, an owner can see whether a card's lifespan is years or decades.
 
 **Database view.** The meter says how much the card takes, not who is writing.
-**Settings → SD card → Database** answers that for `seedypod.db`, after
+**Settings → SD card → Database** answers that for `thryve.db`, after
 sleepypod's System → Databases: file and WAL size, journal mode, migrations, an
 on-demand `quick_check`, and each table's rows, bytes, last write and rows per
 hour over 24 h, busiest first.
@@ -184,13 +184,13 @@ the measured GB/day turns out high.
 
 ### 2. Back up automatically, off the card
 
-Core makes a **backup bundle**: `seedypod-backup-<unit>-<date>.tar.gz`. It
+Core makes a **backup bundle**: `thryve-backup-<unit>-<date>.tar.gz`. It
 contains:
 
-- **`seedypod.db`:** taken with SQLite's online backup, so core keeps running.
-- **`/etc/seedypod/hal.toml`**, and the Mosquitto LAN password file
-  (`/etc/mosquitto/seedypod.passwd`) when `--mqtt-lan` made one.
-- **`/var/lib/seedypod/`:** `hald`'s state, the dosing ledger and the probes
+- **`thryve.db`:** taken with SQLite's online backup, so core keeps running.
+- **`/etc/thryve/hal.toml`**, and the Mosquitto LAN password file
+  (`/etc/mosquitto/thryve.passwd`) when `--mqtt-lan` made one.
+- **`/var/lib/thryve/`:** `hald`'s state, the dosing ledger and the probes
   added in the app (`sensors.json`).
 - **`manifest.json`:** unit id, core and `hald` versions, schema migration,
   creation time and file checksums. It is the last entry, so checksums are
@@ -201,8 +201,8 @@ and they would make the bundle 100× larger. An **Include photos** switch
 covers owners without a mirror.
 
 Core runs as the install user. `install-hal` and `install` add that user to
-the `seedypod` group, which can read `/etc/seedypod`, `/var/lib/seedypod`
-and the Mosquitto password file (owner `mosquitto`, group `seedypod`, mode
+the `thryve` group, which can read `/etc/thryve`, `/var/lib/thryve`
+and the Mosquitto password file (owner `mosquitto`, group `thryve`, mode
 0640). Read access is all that's needed.
 
 Destinations:
@@ -225,7 +225,7 @@ warning saying so, and the bucket copy sits behind those same credentials.
 ### 3. Restore in one step
 
 A restore can happen in three places. They all call one root helper,
-`/usr/local/sbin/seedypod-restore <bundle>`. It ships in core's tarball, so
+`/usr/local/sbin/thryve-restore <bundle>`. It ships in core's tarball, so
 it always matches the installed schema. `scripts/install` copies it there
 (root-owned, with the install prefix written in) and grants the core user
 `NOPASSWD` for that one path, the same pattern sleepypod uses for its service
@@ -235,16 +235,16 @@ restarts. The helper:
    there: only known file names, only regular files, every checksum in the
    manifest. It refuses a bundle from a **newer** schema than the installed
    core and names the version to install first.
-2. Stops `seedypod-core` and `hald`. When core asks for the restore, the
+2. Stops `thryve-core` and `hald`. When core asks for the restore, the
    rest runs in its own transient unit (`systemd-run`), since stopping core
    would otherwise stop the helper too.
 3. Replaces the database, `hal.toml`, the Mosquitto password file and
    `hald`'s state files. It never restores Mosquitto's config: when a
    password file comes back, the helper writes the LAN listener itself.
 4. Starts both services. Migrations run on start, as on any update.
-5. Keeps the replaced files in `/var/lib/seedypod-restore/pre-restore/`
+5. Keeps the replaced files in `/var/lib/thryve-restore/pre-restore/`
    until the next successful restore, so a wrong bundle can be undone with
-   `seedypod-restore --undo` or **Undo restore** in Settings. That
+   `thryve-restore --undo` or **Undo restore** in Settings. That
    directory is root-owned, unlike `hald`'s state directory, so nothing but
    the helper can change what an undo puts back.
 
@@ -266,23 +266,23 @@ Assistant keeps the same device and entities.
 
 ### 4. A ready-made SD card image
 
-Each release attaches `seedypod-<version>-arm64.img.xz` to its GitHub
+Each release attaches `thryve-<version>-arm64.img.xz` to its GitHub
 release:
 
 - **Contents:** Raspberry Pi OS Lite, Mosquitto, `hald` and core, with the
   wear settings applied.
 - **Build:** `rpi-image-gen` in CI on release, about 600 MB compressed.
 
-seedypod is also listed in a Raspberry Pi Imager repository JSON
+Thryve is also listed in a Raspberry Pi Imager repository JSON
 (`os_list`) on the docs site, so it shows up in Imager. Imager already sets
 Wi-Fi, SSH and the hostname. Owners who skip that step can still get online
 with the button-hold setup hotspot.
 
 **Card replacement** becomes:
 
-1. Flash the seedypod image with Raspberry Pi Imager.
+1. Flash the Thryve image with Raspberry Pi Imager.
 2. Put the card in and power on.
-3. Open `http://seedypod.local:3000` (the image's default hostname), choose **Restore from a backup**, and
+3. Open `http://thryve.local:3000` (the image's default hostname), choose **Restore from a backup**, and
    pick the latest.
 
 That's about ten minutes and no shell. The unit comes back with its
@@ -344,7 +344,7 @@ Each phase ships on its own and is useful alone.
 
 ## Amendment 2026-11-06: phase 4 as built
 
-Phase 4 shipped as `seedypod-os.img.xz`, and differs from what's proposed above in
+Phase 4 shipped as `thryve-os.img.xz`, and differs from what's proposed above in
 three ways, all because of what the first real install found.
 
 - **32-bit, not arm64.** Gardyn's Pi Zero W can't boot a 64-bit OS and gives no
@@ -359,7 +359,7 @@ three ways, all because of what the first real install found.
   `scripts/image/base.env`, keeps exactly that flow. It builds in minutes rather than
   most of an hour, and moving to a new Raspberry Pi OS is two lines. Packages added
   during the build come from the live archive, so two builds of one commit aren't
-  byte-identical; `seedypod-os-manifest.txt` records what went in.
+  byte-identical; `thryve-os-manifest.txt` records what went in.
 - **The installers build it.** `scripts/image/bake` runs `scripts/install-hal` and
   `scripts/install` inside the image under emulation, from the release's own tarball.
   So what they set up lands on the image with no second copy to keep in step, and
@@ -370,11 +370,11 @@ three ways, all because of what the first real install found.
   alongside cloud-init failed in one boot under emulation.
 
 Two accounts differ from a scripted install. The login doesn't exist until first boot,
-so core can't run as it, and gets `seedypod-core`. `hald` gets `seedypod-hal`, because
+so core can't run as it, and gets `thryve-core`. `hald` gets `thryve-hal`, because
 Raspberry Pi OS makes the login by renaming `pi`, which would fail if the name were
-taken; that leaves `seedypod` free for anyone who types it into Imager. `scripts/install`
+taken; that leaves `thryve` free for anyone who types it into Imager. `scripts/install`
 and `scripts/install-hal` keep these accounts on a rerun, and the first-boot files root
-runs are copied out of `/opt/seedypod`, which `seedypod-core` owns.
+runs are copied out of `/opt/thryve`, which `thryve-core` owns.
 
 There's no default login and no default password. Imager sets the login, and a card
 with none works from the app alone, with `pi` locked. The setup hotspot still needs
@@ -396,4 +396,4 @@ single reliability gain available.
 
 **Sources:** [sleepypod ADR 0018: tmpfs for live RAW frames](https://github.com/sleepypod/core/blob/dev/docs/adr/0018-tmpfs-raw-frames.md) · [sleepypod journald helpers (RAM-only journal)](https://github.com/sleepypod/core/blob/dev/scripts/lib/journald-helpers) · [sleepypod: System → Storage (flash writes)](https://sleepypod.github.io/core/system/storage/) · [ADR 0012: Deployment and trust model](/developers/adr/0012-deployment-and-trust/) · [ADR 0019: Pluggable capture analysis](/developers/adr/0019-pluggable-capture-analysis/) · [Maintenance](/core/maintenance/)
 
-**Imported from** [`docs/adr/0021-sd-card-wear-and-recovery.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0021-sd-card-wear-and-recovery.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/adr/0021-sd-card-wear-and-recovery.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0021-sd-card-wear-and-recovery.md) in kaniick/Thryve. Edit it there, not here.

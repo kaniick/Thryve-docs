@@ -1,8 +1,8 @@
-// Record the scenes of the overview video from a demo build of seedypod/core.
+// Record the scenes of the overview video from a demo build of kaniick/Thryve.
 //
 //   cd <core checkout at CORE_COMMIT>
-//   VITE_DEMO=1 npx vite build --config web/vite.config.ts --outDir /tmp/seedypod-demo
-//   DEMO_DIST=/tmp/seedypod-demo CORE_COMMIT=<sha> node scripts/capture-overview.mjs
+//   VITE_DEMO=1 npx vite build --config web/vite.config.ts --outDir /tmp/thryve-demo
+//   DEMO_DIST=/tmp/thryve-demo CORE_COMMIT=<sha> node scripts/capture-overview.mjs
 //   node scripts/render-overview.mjs
 //
 // The demo build is the real UI against the in-browser simulated tower, served
@@ -68,7 +68,7 @@ async function record(scene, path, act, ready) {
   await context.route('**/*', (r) =>
     r.request().url().startsWith(origin) ? r.continue() : r.abort(),
   )
-  await context.addInitScript(() => localStorage.setItem('seedypod.growView', 'pods'))
+  await context.addInitScript(() => localStorage.setItem('thryve.growView', 'pods'))
   const started = Date.now()
   const page = await context.newPage()
   await page.clock.install({ time: new Date(capturedTime) })

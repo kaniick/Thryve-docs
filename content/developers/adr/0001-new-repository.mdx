@@ -1,6 +1,6 @@
 ---
 title: 'ADR 0001: New repository and naming'
-description: 'Why a new repo instead of a fork, the seedypod name, and the single-repo layout.'
+description: 'Why a new repo instead of a fork, the Thryve name, and the single-repo layout.'
 ---
 
 import { Callout } from 'nextra/components'
@@ -21,11 +21,11 @@ appliance with an embedded Linux controller) for Eight Sleep hardware.
 
 ## Decision
 
-Start a new repository rather than fork. Name the project **seedypod**: the
+Start a new repository rather than fork. Name the project **Thryve**: the
 sleepypod naming pattern, and Gardyn's plant slots are literally called pods —
-you put seeds in them. The repository is `seedypod/core`. Sibling repos follow
-sleepypod: `seedypod/seedypod.github.io` (docs), `seedypod/.github` (org
-profile), later `seedypod/ios`.
+you put seeds in them. The repository is `kaniick/Thryve`. Sibling repos follow
+sleepypod: `kaniick/Thryve-docs` (docs), `kaniick/.github` (org
+profile), later `kaniick/Thryve-ios`.
 
 Single repository for core (TypeScript) and the HAL (Rust, `hal/`), mirroring
 sleepypod's `modules/` precedent with Codecov flags per language.
@@ -39,18 +39,18 @@ sleepypod's `modules/` precedent with Codecov flags per language.
 
 **Authors**: @ng
 
-## Amendment (2026-10-31): leafypod → seedypod
+## Amendment (2026-10-31): leafypod → Thryve
 
 The project was drafted as **leafypod** at `ng/leafypod`, waiting on the
 dormant `leafypod` GitHub organization. It never freed up, so the repository
-moved to the `seedypod` organization as `seedypod/core` and the name changed
-with it everywhere — package, crates, MQTT prefix (`seedypod/<unit-id>/`),
-mDNS service (`_seedypod-hal._tcp`), paths (`/etc/seedypod`, `/var/lib/seedypod`,
-`/opt/seedypod`) and the `SEEDYPOD_*` installer variables. No unit had run
+moved to the `thryve` organization as `kaniick/Thryve` and the name changed
+with it everywhere — package, crates, MQTT prefix (`thryve/<unit-id>/`),
+mDNS service (`_thryve-hal._tcp`), paths (`/etc/thryve`, `/var/lib/thryve`,
+`/opt/thryve`) and the `THRYVE_*` installer variables. No unit had run
 the old names, so nothing needed a migration. GitHub redirects `ng/leafypod`.
 
 ---
 
 **Sources:** [sleepypod/core (conventions and ADR precedents)](https://github.com/sleepypod/core) · [iot-root/garden-of-eden (reference implementation, GPL-3; no code copied)](https://github.com/iot-root/garden-of-eden)
 
-**Imported from** [`docs/adr/0001-new-repository.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0001-new-repository.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/adr/0001-new-repository.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0001-new-repository.md) in kaniick/Thryve. Edit it there, not here.

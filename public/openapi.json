@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "seedypod core API",
+    "title": "thryve core API",
     "description": "Local, cloud-free control of a Gardyn hydroponic tower. LAN-only; no authentication.",
     "version": "1.0.0"
   },
@@ -11,7 +11,7 @@
     }
   ],
   "externalDocs": {
-    "url": "https://seedypod.github.io/developers/api"
+    "url": "https://kaniick.github.io/Thryve-docs/developers/api"
   },
   "paths": {
     "/system": {
@@ -22611,7 +22611,7 @@
     "/storage/database": {
       "get": {
         "operationId": "storage-database",
-        "summary": "Metadata about seedypod.db, never row contents: file and WAL size, journal mode, migrations, and rows, bytes, last write and rows per hour over 24 h for each table. Cached for at least 5 minutes",
+        "summary": "Metadata about thryve.db, never row contents: file and WAL size, journal mode, migrations, and rows, bytes, last write and rows per hour over 24 h for each table. Cached for at least 5 minutes",
         "tags": ["storage"],
         "security": [
           {

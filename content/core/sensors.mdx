@@ -11,7 +11,7 @@ import { Callout } from 'nextra/components'
   Draft. Parts of this page describe behaviour not yet verified on a real Gardyn.
 </Callout>
 
-seedypod reads Atlas Scientific EZO circuits on the Pi's I²C bus: **pH**,
+Thryve reads Atlas Scientific EZO circuits on the Pi's I²C bus: **pH**,
 **conductivity (EC)** and **water temperature (RTD)**. You add them from the app;
 there's no config file to edit and nothing to restart.
 
@@ -58,11 +58,11 @@ Assistant; its history is kept. Built-in sensors can't be removed from the app
 `GET /api/devices`, `POST /api/devices/sensors {kind, addr}`,
 `DELETE /api/devices/sensors/{kind}/{addr}` and
 `POST /api/sensors/{id}/calibrate`. Agents can read the inventory
-(`list_devices`, `seedypod://devices`) but can't change it. To support a new
+(`list_devices`, `thryve://devices`) but can't change it. To support a new
 probe type, see ADR-0018.
 
 ---
 
 **Sources:** [ADR 0018: Runtime sensor inventory](/developers/adr/0018-runtime-sensor-inventory/) · [hald reference](/developers/hal/)
 
-**Imported from** [`docs/SENSORS.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/SENSORS.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/SENSORS.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/SENSORS.md) in kaniick/Thryve. Edit it there, not here.

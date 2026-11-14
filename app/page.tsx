@@ -20,7 +20,7 @@ export default function Home() {
             <DiscordIcon aria-hidden="true" focusable="false" />
             <span className="link-label">Discord</span>
           </a>
-          <a className="github-link" href="https://github.com/seedypod" aria-label="GitHub">
+          <a className="github-link" href="https://github.com/kaniick" aria-label="GitHub">
             <GitHubIcon aria-hidden="true" focusable="false" />
             <span className="link-label">GitHub</span>
           </a>
@@ -39,7 +39,7 @@ export default function Home() {
             </h1>
             <p className="hero-description">
               A Gardyn is a good tower with a Raspberry Pi inside and a cloud account in front of
-              it. seedypod replaces the cloud with software on that Pi: light, water, sensors and
+              it. Thryve replaces the cloud with software on that Pi: light, water, sensors and
               cameras on your own network, Autopilot and camera growth analysis, an MCP server so AI
               agents can plan your pods, and HomeKit and Home Assistant built in.
             </p>
@@ -59,8 +59,8 @@ export default function Home() {
           <div className="hero-media">
             <BrowserFrame
               src="/media/core-home.webp"
-              alt="seedypod web UI home screen: the tower in 3D under its lit grow light, on day 19 of a grow with 19 pods ready to harvest"
-              caption="The seedypod web UI with the demo's simulated tower. The same software runs on a real Gardyn 3.0."
+              alt="Thryve web UI home screen: the tower in 3D under its lit grow light, on day 19 of a grow with 19 pods ready to harvest"
+              caption="The Thryve web UI with the demo's simulated tower. The same software runs on a real Gardyn 3.0."
             />
           </div>
         </section>
@@ -77,12 +77,12 @@ export default function Home() {
             </Link>
           </div>
           <Demo
-            src="/media/seedypod-overview.mp4"
-            poster="/media/seedypod-overview.png"
+            src="/media/thryve-overview.mp4"
+            poster="/media/thryve-overview.png"
             title="Your garden, your rules."
             wide
           >
-            A silent tour of the seedypod web UI, recorded from the demo build against a simulated
+            A silent tour of the Thryve web UI, recorded from the demo build against a simulated
             tower.
           </Demo>
         </section>
@@ -154,7 +154,7 @@ export default function Home() {
             <Link className="product-card" href="/core/">
               <span className="card-number">02 — THE BRAINS</span>
               <h3>
-                seedypod core <LinkArrow />
+                Thryve core <LinkArrow />
               </h3>
               <p>
                 Hono, tRPC and SQLite. Schedules, grow cycles, alerts, camera captures, and the
@@ -196,7 +196,7 @@ export default function Home() {
                 layout.
               </p>
               <pre className="card-snippet" aria-label="An example prompt">
-                {`use the seedypod mcp to plan
+                {`use the thryve mcp to plan
 Order summary:
 1 x Basil
 1 x Italian Parsley
@@ -269,7 +269,7 @@ Order summary:
           Not affiliated with Gardyn.
         </p>
         <nav className="footer-links" aria-label="Community">
-          <a href="https://github.com/seedypod">
+          <a href="https://github.com/kaniick">
             Made in the open <LinkArrow direction="external" />
           </a>
           <a href="https://discord.gg/UMmv5R6MXa">

@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test'
 import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
+import { BASE_PATH, SITE_URL } from '../site.config.mjs'
+// Page and file paths below are site-relative; at() puts the GitHub Pages base path in front.
+const at = (p: string) => BASE_PATH + p
 function routes(dir = 'content', prefix = ''): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory()
@@ -15,7 +18,7 @@ for (const route of pages)
   test(`renders ${route}`, async ({ page }) => {
     const errors: string[] = []
     page.on('pageerror', (e) => errors.push(e.message))
-    const response = await page.goto(route)
+    const response = await page.goto(at(route))
     expect(response?.status()).toBe(200)
     await expect(page.locator('h1')).toBeVisible()
     await page.locator('body').click({ position: { x: 1, y: 1 } })
@@ -34,20 +37,25 @@ test('all internal links and fragments resolve', async ({ page, request }) => {
   test.setTimeout(120000)
   const links = new Set<string>()
   for (const route of pages) {
-    await page.goto(route)
+    await page.goto(at(route))
     for (const h of await page
       .locator('a[href]')
       .evaluateAll((es) => es.map((e) => (e as HTMLAnchorElement).getAttribute('href')!))) {
-      if (h.startsWith('/') && !h.startsWith('//')) links.add(h)
-      else if (h.startsWith('#')) links.add(route + h)
+      if (h.startsWith('/') && !h.startsWith('//')) {
+        expect(
+          h === BASE_PATH || h.startsWith(BASE_PATH + '/'),
+          `${route}: ${h} misses the base path`,
+        ).toBe(true)
+        links.add(h.slice(BASE_PATH.length) || '/')
+      } else if (h.startsWith('#')) links.add(route + h)
     }
   }
   for (const href of links) {
     const [p, fragment] = href.split('#')
-    const response = await request.get(p)
+    const response = await request.get(at(p))
     expect(response.status(), href).toBe(200)
     if (fragment) {
-      await page.goto(href)
+      await page.goto(at(href))
       expect(
         await page.evaluate((id) => !!document.getElementById(decodeURIComponent(id)), fragment),
         href,
@@ -56,7 +64,7 @@ test('all internal links and fragments resolve', async ({ page, request }) => {
   }
 })
 test('homepage navigation and keyboard access', async ({ page }) => {
-  await page.goto('/')
+  await page.goto(at('/'))
   await page.keyboard.press('Tab')
   await expect(page.getByText('Skip to content')).toBeFocused()
   await page.getByRole('link', { name: 'Get started', exact: false }).first().click()
@@ -65,14 +73,14 @@ test('homepage navigation and keyboard access', async ({ page }) => {
 test('no pre-hardware banner, and getting started still says to back up the stock card', async ({
   page,
 }) => {
-  await page.goto('/')
+  await page.goto(at('/'))
   await expect(page.getByText(/pre-hardware/i)).toHaveCount(0)
-  await page.goto('/getting-started/')
+  await page.goto(at('/getting-started/'))
   await expect(page.getByText(/pre-hardware/i)).toHaveCount(0)
   await expect(page.getByText('back up the stock microSD card')).toBeVisible()
 })
 test('search finds an indexed guide', async ({ page }) => {
-  await page.goto('/getting-started/')
+  await page.goto(at('/getting-started/'))
   if (await page.getByRole('button', { name: 'Menu', exact: true }).isVisible())
     await page.getByRole('button', { name: 'Menu', exact: true }).click()
   const input = page.getByRole('combobox').filter({ visible: true })
@@ -88,7 +96,7 @@ test('search finds an indexed guide', async ({ page }) => {
 })
 test('docs search index paths and anchors resolve', async ({ page, request }) => {
   test.setTimeout(120000)
-  const response = await request.get('/search-index.json')
+  const response = await request.get(at('/search-index.json'))
   expect(response.status()).toBe(200)
   const index: {
     version: number
@@ -96,11 +104,11 @@ test('docs search index paths and anchors resolve', async ({ page, request }) =>
     pages: { path: string; headings: { anchor: string }[] }[]
   } = await response.json()
   expect(index.version).toBe(1)
-  expect(index.base).toBe('https://seedypod.github.io')
+  expect(index.base).toBe(SITE_URL)
   expect(index.pages.length).toBeGreaterThan(0)
   expect(index.pages.map((p) => p.path)).toContain('/getting-started/')
   for (const { path: route, headings } of index.pages) {
-    expect((await page.goto(route))?.status(), route).toBe(200)
+    expect((await page.goto(at(route)))?.status(), route).toBe(200)
     const missing = await page.evaluate(
       (ids) => ids.filter((id) => !document.getElementById(id)),
       headings.map((h) => h.anchor),
@@ -109,7 +117,7 @@ test('docs search index paths and anchors resolve', async ({ page, request }) =>
   }
 })
 test('docs sidebar navigation works', async ({ page }) => {
-  await page.goto('/getting-started/')
+  await page.goto(at('/getting-started/'))
   const menu = page.getByRole('button', { name: 'Menu', exact: true })
   if (await menu.isVisible()) await menu.click()
   await page
@@ -123,7 +131,7 @@ test('docs sidebar navigation works', async ({ page }) => {
     .first()
     .click()
   await expect(page).toHaveURL(/core\/installation/)
-  await expect(page.locator('h1')).toHaveText('Install seedypod on a Gardyn')
+  await expect(page.locator('h1')).toHaveText('Install Thryve on a Gardyn')
 })
 test('URLs linked from the core README and API resolve', async ({ request }) => {
   for (const url of [
@@ -133,34 +141,34 @@ test('URLs linked from the core README and API resolve', async ({ request }) => 
     '/developers/api',
     '/developers/api/',
   ])
-    expect((await request.get(url)).status(), url).toBe(200)
+    expect((await request.get(at(url))).status(), url).toBe(200)
 })
 test('API reference renders every OpenAPI operation', async ({ page }) => {
   const spec = JSON.parse(readFileSync('public/openapi.json', 'utf8'))
   const count = Object.values(spec.paths).flatMap((p) => Object.keys(p as object)).length
-  await page.goto('/developers/api/')
+  await page.goto(at('/developers/api/'))
   await expect(page.locator('details.api-op')).toHaveCount(count)
   const runOnce = page.locator('details#pump-runOnce')
   await runOnce.locator('summary').click()
   await expect(runOnce).toContainText('durationS')
 })
 test('all ADRs are listed in the sidebar', async ({ page }) => {
-  await page.goto('/developers/adr/')
+  await page.goto(at('/developers/adr/'))
   const adrs = readdirSync('content/developers/adr').filter((f) => /^\d{4}-/.test(f))
   expect(adrs.length).toBeGreaterThan(0)
   for (const f of adrs) {
-    const href = `/developers/adr/${f.replace('.mdx', '')}/`
+    const href = at(`/developers/adr/${f.replace('.mdx', '')}/`)
     await expect(page.locator(`main a[href="${href}"]`)).toHaveCount(1)
   }
 })
 test('custom 404 export exists', async ({ request }) => {
-  const response = await request.get('/this-page-does-not-exist/')
+  const response = await request.get(at('/this-page-does-not-exist/'))
   expect(response.status()).toBe(404)
 })
 test('web UI screenshot enlarges and closes', async ({ page }) => {
-  await page.goto('/core/')
+  await page.goto(at('/core/'))
   const name =
-    'seedypod home screen: the tower in 3D under its lit grow light, with light, tank and air readings in the sidebar'
+    'Thryve home screen: the tower in 3D under its lit grow light, with light, tank and air readings in the sidebar'
   const image = page.getByRole('img', { name })
   await image.scrollIntoViewIfNeeded()
   await expect(image).toHaveJSProperty('complete', true)
@@ -178,11 +186,11 @@ test('homepage overview video has its poster and an MP4 the manifest vouches for
   page,
   request,
 }) => {
-  await page.goto('/')
+  await page.goto(at('/'))
   const video = page.getByRole('region', { name: 'Meet your tower.' }).locator('video')
-  await expect(video).toHaveAttribute('poster', '/media/seedypod-overview.png')
+  await expect(video).toHaveAttribute('poster', at('/media/thryve-overview.png'))
   await expect(video).toHaveAttribute('aria-label', 'Your garden, your rules.')
-  const poster = await request.get('/media/seedypod-overview.png')
+  const poster = await request.get(at('/media/thryve-overview.png'))
   expect(poster.status()).toBe(200)
   // Playwright's Chromium has no H.264 decoder, so check the file rather than play it.
   const src = await video.locator('source').getAttribute('src')
@@ -190,12 +198,12 @@ test('homepage overview video has its poster and an MP4 the manifest vouches for
   expect(mp4.status()).toBe(200)
   expect(mp4.headers()['content-type']).toBe('video/mp4')
   const { assets } = JSON.parse(readFileSync('capture/manifest.json', 'utf8'))
-  const asset = assets.find((a: { output: string }) => a.output === 'seedypod-overview.mp4')
+  const asset = assets.find((a: { output: string }) => a.output === 'thryve-overview.mp4')
   expect((await mp4.body()).length).toBe(asset.bytes)
   expect(asset.durationSeconds).toBeGreaterThan(30)
 })
 test('docs theme preference persists', async ({ page }) => {
-  await page.goto('/getting-started/')
+  await page.goto(at('/getting-started/'))
   const menu = page.getByRole('button', { name: 'Menu', exact: true })
   if (await menu.isVisible()) await menu.click()
   await page.getByTitle('Change theme').filter({ visible: true }).first().click()
@@ -211,7 +219,7 @@ for (const [route, count] of [['/developers/architecture/', 1]] as const) {
     page.on('console', (message) => {
       if (message.type() === 'error') errors.push(message.text())
     })
-    await page.goto(route)
+    await page.goto(at(route))
     const diagrams = page.locator('.docs-diagram')
     await expect(diagrams).toHaveCount(count, { timeout: 30000 })
     for (const diagram of await diagrams.all()) {

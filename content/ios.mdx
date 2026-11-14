@@ -1,29 +1,29 @@
 ---
 title: 'iPhone app'
-description: 'seedypod for iPhone: your Gardyn tower in 3D, with pods, light, water and alerts, straight from your own network.'
+description: 'Thryve for iPhone: your Gardyn tower in 3D, with pods, light, water and alerts, straight from your own network.'
 keywords: ['ios', 'iphone', 'app', 'bonjour', 'demo mode', 'api key', 'xcode']
 ---
 
 import { Callout } from 'nextra/components'
 
-# seedypod for iPhone
+# Thryve for iPhone
 
 <Callout type="info">
   The app isn't on the App Store or TestFlight yet. For now you [build it from
   source](#build-from-source) with Xcode and run it on your own iPhone.
 </Callout>
 
-A native companion for your tower. Home is the Gardyn itself, in 3D: every pod colored by how it's doing, the light bars glowing at their level and the tank showing how much water is left. Tap a pod to see where it is in its grow and what to do about it, or tap the light or tank to change them. The app talks straight to seedypod core on your network. There's no account, no cloud and no telemetry.
+A native companion for your tower. Home is the Gardyn itself, in 3D: every pod colored by how it's doing, the light bars glowing at their level and the tank showing how much water is left. Tap a pod to see where it is in its grow and what to do about it, or tap the light or tank to change them. The app talks straight to Thryve core on your network. There's no account, no cloud and no telemetry.
 
 <div className="media-grid">
   <PhoneFrame
     src="/media/ios-home.png"
-    alt="seedypod iPhone app Home: day 19 of a grow, a 3D Gardyn tower with plants in colored pods, and light, tank and air readings below"
+    alt="Thryve iPhone app Home: day 19 of a grow, a 3D Gardyn tower with plants in colored pods, and light, tank and air readings below"
     caption="Home is the tower, on day 19 of a grow."
   />
   <PhoneFrame
     src="/media/ios-pod.png"
-    alt="seedypod iPhone app with the Pod 2 Arugula card open: ready to harvest, a harvest timeline and a Mark harvested button"
+    alt="Thryve iPhone app with the Pod 2 Arugula card open: ready to harvest, a harvest timeline and a Mark harvested button"
     caption="Tap a pod for its card: where it is and what's next."
   />
 </div>
@@ -55,12 +55,12 @@ Tap the tank or the **Tank** reading for the water sheet: the tank level, the di
 <div className="media-grid">
   <PhoneFrame
     src="/media/ios-light.png"
-    alt="seedypod iPhone app Grow light sheet: 85% and following the schedule, an on switch and a brightness slider"
+    alt="Thryve iPhone app Grow light sheet: 85% and following the schedule, an on switch and a brightness slider"
     caption="The light: on, off and brightness, held for 30 minutes."
   />
   <PhoneFrame
     src="/media/ios-water.png"
-    alt="seedypod iPhone app Water sheet: tank at 71%, water distance and pump power, and pump run buttons for 30 seconds, 1 minute and 2 minutes"
+    alt="Thryve iPhone app Water sheet: tank at 71%, water distance and pump power, and pump run buttons for 30 seconds, 1 minute and 2 minutes"
     caption="The water: tank, readings and bounded pump runs."
   />
 </div>
@@ -83,14 +83,14 @@ The first screen looks for units on your Wi-Fi.
 
 <PhoneFrame
   src="/media/ios-connect.png"
-  alt="seedypod iPhone app connect screen: looking for units on this network, a field to type an address, and a Try the demo card"
+  alt="Thryve iPhone app connect screen: looking for units on this network, a field to type an address, and a Try the demo card"
   caption="Pick a unit it found, type its address, or try the demo."
 />
 
-1. Join the same network as your Gardyn. Check that `http://seedypod.local/` (or the unit's IP address) opens in Safari.
+1. Join the same network as your Gardyn. Check that `http://thryve.local/` (or the unit's IP address) opens in Safari.
 2. Open the app and allow **Local Network** access when iOS asks. Without it the app can't see or reach your unit.
-3. Under **On this network**, tap your unit. Core advertises itself over Bonjour as `_seedypod._tcp`, so units appear by name, with their core version and whether they need an API key.
-4. If your unit isn't listed, type its address under **Or type its address**, such as `192.168.1.20` or `seedypod.local`, and tap **Connect**. Core listens on port 3000, which the app assumes unless you type another one (`192.168.1.20:8080`).
+3. Under **On this network**, tap your unit. Core advertises itself over Bonjour as `_thryve._tcp`, so units appear by name, with their core version and whether they need an API key.
+4. If your unit isn't listed, type its address under **Or type its address**, such as `192.168.1.20` or `thryve.local`, and tap **Connect**. Core listens on port 3000, which the app assumes unless you type another one (`192.168.1.20:8080`).
 
 The app remembers the unit. To switch, open Settings and tap **Connect to another unit**.
 
@@ -108,31 +108,31 @@ You need a Mac with Xcode 26 or later and an iPhone on iOS 26 or later.
 
 ```sh
 brew install xcodegen
-git clone https://github.com/seedypod/ios.git
+git clone https://github.com/kaniick/Thryve-ios.git
 cd ios
 xcodegen generate
-open Seedypod.xcodeproj
+open Thryve.xcodeproj
 ```
 
-In Xcode, select the **Seedypod** scheme and an iPhone or simulator, then run it. To install on your own iPhone, choose your team under **Signing & Capabilities** for the Seedypod target; if Xcode says the bundle identifier is taken, change it to one of your own. In the simulator, demo mode works with nothing else running.
+In Xcode, select the **Thryve** scheme and an iPhone or simulator, then run it. To install on your own iPhone, choose your team under **Signing & Capabilities** for the Thryve target; if Xcode says the bundle identifier is taken, change it to one of your own. In the simulator, demo mode works with nothing else running.
 
 To try the app against a real core without a Gardyn, run core on your Mac with the simulator (`pnpm dev`, see [Get started](/getting-started/#2-run-it-on-your-computer)) and type `<your Mac's IP>:3000` on the connect screen.
 
 ## Troubleshooting
 
-- **"Turn on Local Network for seedypod":** iOS blocked the app from your network. Open **Settings → Privacy & Security → Local Network** on the iPhone and turn seedypod on, then go back to the app.
+- **"Turn on Local Network for Thryve":** iOS blocked the app from your network. Open **Settings → Privacy & Security → Local Network** on the iPhone and turn Thryve on, then go back to the app.
 - **Your unit isn't found:** type its address instead. Bonjour doesn't cross subnets or VLANs, and some routers and guest networks block it or keep devices apart. If the typed address fails too, check that it opens in Safari on the same iPhone.
-- **An older core isn't discovered:** core started advertising `_seedypod._tcp` after v1.4.0 (in [core#75](https://github.com/seedypod/core/pull/75)). Units on v1.4.0 or earlier never appear in the list; type their address, or update core. On newer units, discovery is off if `SEEDYPOD_MDNS=0` is set in the core service ([Install](/core/installation/)).
-- **"No seedypod answered at …":** nothing at that address replied as core. Check the IP, the port, and that core is running (`systemctl status seedypod-core` on the unit).
+- **An older core isn't discovered:** core started advertising `_thryve._tcp` after v1.4.0 (in [core#75](https://github.com/kaniick/Thryve/pull/75)). Units on v1.4.0 or earlier never appear in the list; type their address, or update core. On newer units, discovery is off if `THRYVE_MDNS=0` is set in the core service ([Install](/core/installation/)).
+- **"No Thryve answered at …":** nothing at that address replied as core. Check the IP, the port, and that core is running (`systemctl status thryve-core` on the unit).
 - **"The unit wants an API key":** add the key in the app's Settings ([API key](#api-key)).
 - **Controls fail or readings look stale:** check the Hardware daemon line in the app's Settings, and see [Debugging](/core/debugging/).
 
-Report app problems, with the app and core versions, in [seedypod/ios issues](https://github.com/seedypod/ios/issues).
+Report app problems, with the app and core versions, in [kaniick/Thryve-ios issues](https://github.com/kaniick/Thryve-ios/issues).
 
 ## What runs where
 
-Core runs your schedules, Autopilot and reminders, and the hardware daemon applies the safety rules. The app is a client: closing it changes nothing on the unit, and every command it sends goes through the same core API and pump guard as the web UI. It's open source under AGPL-3.0, at [seedypod/ios](https://github.com/seedypod/ios).
+Core runs your schedules, Autopilot and reminders, and the hardware daemon applies the safety rules. The app is a client: closing it changes nothing on the unit, and every command it sends goes through the same core API and pump guard as the web UI. It's open source under AGPL-3.0, at [kaniick/Thryve-ios](https://github.com/kaniick/Thryve-ios).
 
 ---
 
-**Source reference:** [seedypod/ios README](https://github.com/seedypod/ios/blob/db6746eba3718949943dcf99c98d42d6196bf4f2/README.md) · [Connect and discovery](https://github.com/seedypod/ios/blob/db6746eba3718949943dcf99c98d42d6196bf4f2/Seedypod/Views/ConnectView.swift) · [Light, water and alert sheets](https://github.com/seedypod/ios/blob/db6746eba3718949943dcf99c98d42d6196bf4f2/Seedypod/Views/Panels.swift) · [Core Bonjour advertising](https://github.com/seedypod/core/blob/14725df7d041e4e4f6952be842e5e1e24737ba48/src/network/mdns.ts) · [ADR-0017](/developers/adr/0017-ios-client/)
+**Source reference:** [kaniick/Thryve-ios README](https://github.com/kaniick/Thryve-ios/blob/db6746eba3718949943dcf99c98d42d6196bf4f2/README.md) · [Connect and discovery](https://github.com/kaniick/Thryve-ios/blob/db6746eba3718949943dcf99c98d42d6196bf4f2/Thryve/Views/ConnectView.swift) · [Light, water and alert sheets](https://github.com/kaniick/Thryve-ios/blob/db6746eba3718949943dcf99c98d42d6196bf4f2/Thryve/Views/Panels.swift) · [Core Bonjour advertising](https://github.com/kaniick/Thryve/blob/14725df7d041e4e4f6952be842e5e1e24737ba48/src/network/mdns.ts) · [ADR-0017](/developers/adr/0017-ios-client/)

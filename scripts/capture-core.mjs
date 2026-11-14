@@ -1,8 +1,8 @@
-// Capture real seedypod web UI screenshots from a demo build of seedypod/core.
+// Capture real thryve web UI screenshots from a demo build of kaniick/Thryve.
 //
 //   cd <core checkout at CORE_COMMIT>
-//   VITE_DEMO=1 npx vite build --config web/vite.config.ts --outDir /tmp/seedypod-demo
-//   DEMO_DIST=/tmp/seedypod-demo CORE_COMMIT=<sha> node scripts/capture-core.mjs
+//   VITE_DEMO=1 npx vite build --config web/vite.config.ts --outDir /tmp/thryve-demo
+//   DEMO_DIST=/tmp/thryve-demo CORE_COMMIT=<sha> node scripts/capture-core.mjs
 //
 // The demo build runs the real UI against the in-browser simulator with seeded
 // history, so no hardware and no network are involved: requests off the loopback
@@ -165,7 +165,7 @@ for (const { route, output, source, prepare } of shots) {
   await writeFile(file, optimized)
   const m = await sharp(optimized).metadata()
   assets.push({
-    repository: 'seedypod/core',
+    repository: 'kaniick/Thryve',
     commit,
     source: `web demo build (VITE_DEMO=1), ${source ?? `route ${route}`}`,
     output,

@@ -10,10 +10,10 @@ import { Callout } from 'nextra/components'
 Core exposes a [Model Context Protocol](https://modelcontextprotocol.io) server at `/api/mcp`, so an MCP host such as Claude Desktop or Cursor can read sensors, check the grow cycle, and act on your tower. It uses the stateless Streamable HTTP transport.
 
 ```text
-http://seedypod.local/api/mcp
+http://thryve.local/api/mcp
 ```
 
-That's the address on a Raspberry Pi, where the installer forwards port 80 to core. `http://seedypod.local:3000/api/mcp` works too, and it's the one to use when that forward is off ([Install](/core/installation/#open-the-app)).
+That's the address on a Raspberry Pi, where the installer forwards port 80 to core. `http://thryve.local:3000/api/mcp` works too, and it's the one to use when that forward is off ([Install](/core/installation/#open-the-app)).
 
 Every tool calls the same procedures the web UI uses, never the hardware directly, so **the pump safety guard applies to agents too**. A refusal (dry tank, latched fault) comes back as a tool error with the daemon's reason. Limits are discoverable rather than implied, so an agent can plan within them.
 
@@ -111,7 +111,7 @@ All 60 tools as of core `8555939` (`src/mcp/server.ts`). The planner's write too
 | `remove_plan`   | write | Delete a saved plan. Pods it was applied to keep what was written on them.                                 |
 | `apply_plan`    | write | Write a saved plan onto the pods and schedule reminders for later waves. Overwrites them: confirm first.   |
 
-Three resources are also available: `seedypod://sensors` (latest readings), `seedypod://devices` (sensor devices and addable kinds) and `seedypod://limits` (the hardware limits).
+Three resources are also available: `thryve://sensors` (latest readings), `thryve://devices` (sensor devices and addable kinds) and `thryve://limits` (the hardware limits).
 
 Adding probes, calibrating them, and creating or arming Autopilot rules change what the unit does unattended, so they are left to a person in the app.
 
@@ -120,7 +120,7 @@ Adding probes, calibrating them, and creating or arming Autopilot rules change w
 Paste a seed order into your agent and let it lay the tower out. This is a real run: the tool calls an agent made for the prompt below, against core `0808f91` on a Mac (simulated hardware, a fresh data directory, so all 30 pods were empty). The results are trimmed, and the order number is left out of the prompt and the plan id; nothing else is edited.
 
 ```text
-use the seedypod mcp to plan
+use the thryve mcp to plan
 Order summary:
 1 x Basil
 1 x Italian Parsley

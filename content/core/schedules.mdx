@@ -7,7 +7,7 @@ import { Callout } from 'nextra/components'
 
 # Schedules
 
-seedypod schedules the grow light and the pump. The light runs **Auto**, which follows the sun, or **light curves** of your own. Watering follows the [grow protocol](/core/grow-cycle/#grow-protocol)'s stages, or one of **Your schedules**. Everything runs on the unit's clock, in the timezone set in **Settings → Unit**, and can be limited to certain days of the week.
+Thryve schedules the grow light and the pump. The light runs **Auto**, which follows the sun, or **light curves** of your own. Watering follows the [grow protocol](/core/grow-cycle/#grow-protocol)'s stages, or one of **Your schedules**. Everything runs on the unit's clock, in the timezone set in **Settings → Unit**, and can be limited to certain days of the week.
 
 This page describes core `8555939` on `dev`.
 
@@ -27,7 +27,7 @@ When the protocol changes, for example because you plant a tomato, Auto's hours 
   alt="Light screen with Auto running: the strip reads Auto · Light on, follows sun + extension, near Los Angeles, and Today's timeline shows sunrise 06:13 and sunset 17:00 with the light extended about two hours past each"
 />
 
-**Where the sun is.** Auto uses the location set in **Settings → Unit → Location** (latitude and longitude). Left empty, it uses your timezone's principal city, and the Light strip says so (`near Los Angeles`). Once a location is set, a locate icon shows on Auto's line instead. **Use this device's location** fills the field from the browser, rounded to about a kilometre; browsers only offer this on `https` or `localhost`, so on `http://seedypod.local` you type the coordinates instead. A nearby city's coordinates are close enough. With neither (the timezone is UTC), the light day centres on 12:00.
+**Where the sun is.** Auto uses the location set in **Settings → Unit → Location** (latitude and longitude). Left empty, it uses your timezone's principal city, and the Light strip says so (`near Los Angeles`). Once a location is set, a locate icon shows on Auto's line instead. **Use this device's location** fills the field from the browser, rounded to about a kilometre; browsers only offer this on `https` or `localhost`, so on `http://thryve.local` you type the coordinates instead. A nearby city's coordinates are close enough. With neither (the timezone is UTC), the light day centres on 12:00.
 
 **Turning Auto on and off.** Pick **Auto** on the Light strip's slider. Auto takes the light straight away and ends any hold. It runs alone: the light curves that were on are switched off and remembered, and their cards say `waiting while Auto runs`. To turn Auto off, use the switch on Auto's curve card; the curves it switched off come back on.
 

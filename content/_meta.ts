@@ -4,6 +4,6 @@ export default {
   core: 'User guide',
   ios: 'iPhone app',
   developers: 'Developers',
-  about: 'About seedypod',
+  about: 'About thryve',
   demo: { title: 'Live demo', type: 'page', href: 'https://seedypod.vercel.app' },
 }

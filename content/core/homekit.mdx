@@ -13,7 +13,7 @@ Pairing from the Home app has been checked on a real Gardyn 3.0 with its origina
 
 ## Pair it
 
-1. Open the web UI (`http://seedypod.local`) and go to **Settings → Apple Home**.
+1. Open the web UI (`http://thryve.local`) and go to **Settings → Apple Home**.
 2. Turn on **HomeKit**. After a few seconds an 8-digit **setup code** and its QR code appear. Every unit has its own code; there's no shared default.
 3. On your iPhone or iPad, on the same network as the unit, open the Home app, tap **+ → Add Accessory**, and scan the QR code or enter the code.
 4. Home adds a bridge with the accessories below. Choose a room for each.
@@ -49,7 +49,7 @@ Removing the bridge in the Home app from the last home does the same reset on th
 
 ## Troubleshooting
 
-**Settings says Paired: no, but the tower works in Home.** Core before [core #140](https://github.com/seedypod/core/pull/140) (merged November 9, 2026) looked for the pairing in the wrong folder. Update core: the update moves the pairing to the data folder and keeps the unit paired.
+**Settings says Paired: no, but the tower works in Home.** Core before [core #140](https://github.com/kaniick/Thryve/pull/140) (merged November 9, 2026) looked for the pairing in the wrong folder. Update core: the update moves the pairing to the data folder and keeps the unit paired.
 
 **Home can't find the accessory.** Home finds the bridge over Bonjour, so pair from an iPhone or iPad on the same network as the unit, not a guest or separate IoT network. The bridge listens on port 51827.
 
@@ -59,7 +59,7 @@ Removing the bridge in the Home app from the last home does the same reset on th
 
 **The cameras aren't in the room you picked.** Home puts accessories that appear after pairing in the bridge's own room, often **Default Room**. Move them, or first set the bridge's room in **Home → Settings → Hubs & Bridges**.
 
-**Camera tiles read No Response, and the other tiles work.** Core before [core #181](https://github.com/seedypod/core/pull/181) (merged November 9, 2026) declared the cameras with only part of what Home expects of a camera: one stream, 15 fps, and no microphone. Home gave up on them without asking for a picture. Update core. On the unit, `journalctl -u seedypod-core | grep -i homekit` should then show `image request for Upper camera … bytes` while a camera tile is on screen. If no `image request` line appears at all, Home isn't asking. To see what Home does over HAP, turn on the debug log for up to an hour with `curl -X POST -H content-type:application/json -d '{"minutes":10}' http://<unit>:3000/api/homekit/debug`. Its lines start with `homekit debug:` ([core #182](https://github.com/seedypod/core/issues/182)).
+**Camera tiles read No Response, and the other tiles work.** Core before [core #181](https://github.com/kaniick/Thryve/pull/181) (merged November 9, 2026) declared the cameras with only part of what Home expects of a camera: one stream, 15 fps, and no microphone. Home gave up on them without asking for a picture. Update core. On the unit, `journalctl -u thryve-core | grep -i homekit` should then show `image request for Upper camera … bytes` while a camera tile is on screen. If no `image request` line appears at all, Home isn't asking. To see what Home does over HAP, turn on the debug log for up to an hour with `curl -X POST -H content-type:application/json -d '{"minutes":10}' http://<unit>:3000/api/homekit/debug`. Its lines start with `homekit debug:` ([core #182](https://github.com/kaniick/Thryve/issues/182)).
 
 <Callout>
   HomeKit isn't available in the [live demo](https://seedypod.vercel.app): it runs on the unit.

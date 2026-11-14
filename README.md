@@ -1,6 +1,12 @@
-# seedypod product and documentation site
+# Thryve product and documentation site
 
-Nextra + Next.js static export, served at https://seedypod.github.io/. Modeled on [sleepypod.github.io](https://github.com/sleepypod/sleepypod.github.io).
+> **Modified version.** Thryve is a rebranded, modified fork of
+> [SeedyPod](https://github.com/seedypod) by Jonathan Ng and the SeedyPod contributors.
+> This site is forked from [seedypod/seedypod.github.io](https://github.com/seedypod/seedypod.github.io);
+> see [NOTICE](NOTICE). Screenshots and the overview video were captured from SeedyPod
+> before the rebrand and still show its name until they are recaptured.
+
+Nextra + Next.js static export, served at https://kaniick.github.io/Thryve-docs/ (a GitHub Pages project site, so everything lives under the `/Thryve-docs` base path; `site.config.mjs` sets it, and `BASE_PATH=` builds for a root domain). Modeled on [sleepypod.github.io](https://github.com/sleepypod/sleepypod.github.io).
 
 The pin map has been checked against the stock Gardyn 3.0 firmware and partly probed on a Gardyn 3.0: the light, I²C sensors, over-temp line and cameras are verified; the pump, water level and button aren't yet. Pages must not present hardware behaviour that hasn't been probed on a unit as verified.
 
@@ -12,6 +18,8 @@ Use Node 24 and pnpm 10.34.5. The logo and icon PNGs in `public/brand/` are stor
 pnpm install --frozen-lockfile
 pnpm dev
 ```
+
+The dev server serves the site under the base path: http://localhost:3000/Thryve-docs/.
 
 ## Validate the production output
 
@@ -26,7 +34,7 @@ pnpm check
 
 ## Content sources
 
-[seedypod/core](https://github.com/seedypod/core)'s `docs/` folder is the source of truth. Imported pages pin the core commit they were imported from (currently `19cfa6e29f05b94885105d8dd9b0e99d048bcb1c` on `dev`); hand-written pages cite the core commit they describe in their text.
+[kaniick/Thryve](https://github.com/kaniick/Thryve)'s `docs/` folder is the source of truth. Imported pages pin the core commit they were imported from (currently `19cfa6e29f05b94885105d8dd9b0e99d048bcb1c` on `dev`); hand-written pages cite the core commit they describe in their text.
 
 - **Imported pages** (`content/developers/adr/`, `hal`, `hardware`, `deployment`, `testing`, `implementation-plan`, `handoff`) are generated from core's OKF documents. Do not edit them here; change core, then re-import:
 
@@ -42,32 +50,32 @@ pnpm check
 
 ## Media
 
-`public/brand/` holds the seedypod icon (favicon and apple-touch icon) and the horizontal logo in light and dark variants, resized from the brand asset set; they are stored in Git LFS. `public/media/` holds real web UI screenshots captured from core's demo build (`VITE_DEMO=1`, simulated tower). The `ios-*.png` screenshots come from [seedypod/ios](https://github.com/seedypod/ios)'s demo mode in the iPhone 17 Pro simulator, resized to 552x1200 with `sips -Z 1200`. `capture/manifest.json` records the source commit, method, dimensions and SHA-256 of each file; `pnpm media:verify` checks them. To recapture:
+`public/brand/` holds the Thryve icon (favicon and apple-touch icon) and the horizontal logo in light and dark variants, placeholder Thryve marks generated for the rebrand (replace them with final artwork at the same sizes); they are stored in Git LFS. `public/media/` holds real web UI screenshots captured from core's demo build (`VITE_DEMO=1`, simulated tower). The `ios-*.png` screenshots come from [kaniick/Thryve-ios](https://github.com/kaniick/Thryve-ios)'s demo mode in the iPhone 17 Pro simulator, resized to 552x1200 with `sips -Z 1200`. `capture/manifest.json` records the source commit, method, dimensions and SHA-256 of each file; `pnpm media:verify` checks them. To recapture:
 
 ```sh
 # in a core checkout at the pinned commit
-VITE_DEMO=1 npx vite build --config web/vite.config.ts --outDir /tmp/seedypod-demo
+VITE_DEMO=1 npx vite build --config web/vite.config.ts --outDir /tmp/thryve-demo
 # here
-DEMO_DIST=/tmp/seedypod-demo CORE_COMMIT=<sha> pnpm media:capture
+DEMO_DIST=/tmp/thryve-demo CORE_COMMIT=<sha> pnpm media:capture
 ```
 
 The capture fixes the clock at midday so the grow light is on, and renders the 3D tower with GPU WebGL (set `CAPTURE_GL` as for the overview video on a machine without one). Home and Plan are WebP, because the lit gradient behind the 3D tower bands as a palette PNG; the other screens are PNG. The `mcp-order-plan-*` images are the exception to the demo build: the Plan screen of a local core (simulated HAL) after the real MCP run on the [MCP page](content/core/mcp.mdx); the manifest records how.
 
-The homepage overview video (`public/media/seedypod-overview.mp4` and its poster) is recorded from the same demo build, one Playwright video per scene with real pointer and keyboard input, then framed with chapter titles by ffmpeg. `capture/overview.json` records the scenes, what each verified, and the timeline. It needs `ffmpeg` and a GPU for WebGL (Metal on a Mac; set `CAPTURE_GL` otherwise, see the script):
+The homepage overview video (`public/media/thryve-overview.mp4` and its poster) is recorded from the same demo build, one Playwright video per scene with real pointer and keyboard input, then framed with chapter titles by ffmpeg. `capture/overview.json` records the scenes, what each verified, and the timeline. It needs `ffmpeg` and a GPU for WebGL (Metal on a Mac; set `CAPTURE_GL` otherwise, see the script):
 
 ```sh
-DEMO_DIST=/tmp/seedypod-demo CORE_COMMIT=<sha> node scripts/capture-overview.mjs
+DEMO_DIST=/tmp/thryve-demo CORE_COMMIT=<sha> node scripts/capture-overview.mjs
 node scripts/render-overview.mjs
 ```
 
 ## CI and publishing
 
-Pull requests run **Build and browser checks**. The Pages workflow repeats the production checks and deploys `out/` on pushes to `main`. In GitHub Settings → Pages, the build source is **GitHub Actions**.
+Pull requests run **Build and browser checks**. The Pages workflow repeats the production checks and deploys `out/` on pushes to `main`. In GitHub Settings → Pages, set the build source to **GitHub Actions** (Pages is not enabled on the fork until you do).
 
 After deployment, verify against production:
 
 ```sh
-SITE_URL=https://seedypod.github.io pnpm test
+SITE_URL=https://kaniick.github.io/Thryve-docs/ pnpm test
 ```
 
 ## Dependency patch
@@ -76,4 +84,4 @@ SITE_URL=https://seedypod.github.io pnpm test
 
 ## License
 
-Site content documents AGPL-3.0 software from seedypod/core; screenshots originate from that repository.
+Site content documents AGPL-3.0 software from kaniick/Thryve; screenshots originate from that repository.
