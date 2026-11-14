@@ -1,4 +1,4 @@
-// Import the developer reference from seedypod/core's `docs/` (an OKF v0.2
+// Import the developer reference from kaniick/Thryve's `docs/` (an OKF v0.2
 // bundle) into Nextra pages. core's docs/ stays the source of truth; rerun this
 // after they change instead of editing the generated pages by hand.
 //
@@ -13,7 +13,7 @@ import { dirname, join, posix } from 'node:path'
 const docs = process.env.CORE_DOCS
 const commit = process.env.CORE_COMMIT
 if (!docs || !commit) throw new Error('Set CORE_DOCS and CORE_COMMIT')
-const blob = (path) => `https://github.com/seedypod/core/blob/${commit}/${path}`
+const blob = (path) => `https://github.com/kaniick/Thryve/blob/${commit}/${path}`
 
 const adrs = (await readdir(join(docs, 'adr'))).filter((f) => /^\d{4}-.*\.md$/.test(f)).sort()
 
@@ -127,7 +127,7 @@ async function convert(from) {
   const refs = (meta.sources ?? []).map((s) => `[${s.title}](${resolveLink(from, s.resource)})`)
   if (refs.length) lines.push(`**Sources:** ${refs.join(' · ')}`, '')
   lines.push(
-    `**Imported from** [\`docs/${from}\`](${blob('docs/' + from)}) in seedypod/core. Edit it there, not here.`,
+    `**Imported from** [\`docs/${from}\`](${blob('docs/' + from)}) in kaniick/Thryve. Edit it there, not here.`,
     '',
   )
   return { title, text: lines.join('\n') }
@@ -157,14 +157,14 @@ await writeFile(
   [
     '---',
     'title: Architecture decision records',
-    'description: Why seedypod is built the way it is, one decision at a time.',
+    'description: Why Thryve is built the way it is, one decision at a time.',
     '---',
     '',
     transformBody('adr/index.md', index),
     '',
     '---',
     '',
-    `**Imported from** [\`docs/adr/index.md\`](${blob('docs/adr/index.md')}) in seedypod/core.`,
+    `**Imported from** [\`docs/adr/index.md\`](${blob('docs/adr/index.md')}) in kaniick/Thryve.`,
     '',
   ].join('\n'),
 )

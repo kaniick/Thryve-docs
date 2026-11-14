@@ -1,6 +1,6 @@
 ---
 title: 'REST API reference'
-description: "seedypod core's OpenAPI REST facade, generated from the tRPC routers."
+description: "Thryve core's OpenAPI REST facade, generated from the tRPC routers."
 ---
 
 import { Callout } from 'nextra/components'
@@ -10,14 +10,14 @@ import { Callout } from 'nextra/components'
 Core's REST API is generated from its tRPC procedures by `trpc-to-openapi`, so it always matches what the web UI uses. Every running core serves its own spec:
 
 ```text
-http://seedypod.local/api/openapi.json
+http://thryve.local/api/openapi.json
 ```
 
-The reference below is rendered from a snapshot of that spec ([download `openapi.json`](/openapi.json)), generated from seedypod/core at commit [`19cfa6e`](https://github.com/seedypod/core/commit/19cfa6e29f05b94885105d8dd9b0e99d048bcb1c) by `openApiDocument()` in `src/server/openapi.ts`, the function the server's `/api/openapi.json` serves. When in doubt, the spec from your own unit wins.
+The reference below is rendered from a snapshot of that spec ([download `openapi.json`](/openapi.json)), generated from kaniick/Thryve at commit [`19cfa6e`](https://github.com/kaniick/Thryve/commit/19cfa6e29f05b94885105d8dd9b0e99d048bcb1c) by `openApiDocument()` in `src/server/openapi.ts`, the function the server's `/api/openapi.json` serves. When in doubt, the spec from your own unit wins.
 
 ## Base URL and transport
 
-- REST: `http://seedypod.local/api/*`, JSON in and out. Port 3000 serves the same API, and is the one to use where the port-80 forward is off ([Install](/core/installation/#open-the-app)).
+- REST: `http://thryve.local/api/*`, JSON in and out. Port 3000 serves the same API, and is the one to use where the port-80 forward is off ([Install](/core/installation/#open-the-app)).
 - tRPC: `/api/trpc`, used by the web UI.
 - Live events: tRPC subscription `events.onChange` over SSE, or the read-only WebSocket at `/api/ws`.
 - MCP: `POST /api/mcp` ([MCP for agents](/core/mcp/)).
@@ -36,13 +36,13 @@ If an API key is set in **Settings → API access**, requests from anything othe
 Read every sensor:
 
 ```bash
-curl --fail http://seedypod.local/api/sensors
+curl --fail http://thryve.local/api/sensors
 ```
 
 Set the grow light to 70 %:
 
 ```bash
-curl --fail -X POST http://seedypod.local/api/light \
+curl --fail -X POST http://thryve.local/api/light \
   -H 'Content-Type: application/json' \
   -d '{"on":true,"level":70}'
 ```
@@ -50,7 +50,7 @@ curl --fail -X POST http://seedypod.local/api/light \
 Water for two minutes. The pump is real hardware: the daemon clamps the run to its maximum and refuses it if the tank is low or a fault is latched, returning the reason as an error.
 
 ```bash
-curl --fail -X POST http://seedypod.local/api/pump/run-once \
+curl --fail -X POST http://thryve.local/api/pump/run-once \
   -H 'Content-Type: application/json' \
   -d '{"durationS":120}'
 ```

@@ -7,14 +7,14 @@ import { Callout } from 'nextra/components'
 
 # Home Assistant
 
-seedypod talks to Home Assistant over MQTT, from two places that show up as **one device**:
+Thryve talks to Home Assistant over MQTT, from two places that show up as **one device**:
 
 1. **`hald`** publishes discovery for everything physical: the light, the pump, the sensors, the alerts and the button. This works with **no core at all**.
 2. **Core's bridge** adds what only core knows: the grow day and stage, reminders with "done" buttons, light hours, and a "water now" button.
 
 ## Connect the daemon
 
-Point Home Assistant's [MQTT integration](https://www.home-assistant.io/integrations/mqtt/) and `hald` at the same broker: either the unit's own (installed by `install-hal`, opened to the LAN on port 1884 with `--mqtt-lan`) or Home Assistant's add-on (see [Install](/core/installation/#connect-home-assistant-optional)). `hald` uses `mqtt_url` in `/etc/seedypod/hal.toml` (default `mqtt://127.0.0.1:1883`; set `mqtt_username` and `mqtt_password` if your broker needs them). A device called **Gardyn** followed by the unit id appears with these entities:
+Point Home Assistant's [MQTT integration](https://www.home-assistant.io/integrations/mqtt/) and `hald` at the same broker: either the unit's own (installed by `install-hal`, opened to the LAN on port 1884 with `--mqtt-lan`) or Home Assistant's add-on (see [Install](/core/installation/#connect-home-assistant-optional)). `hald` uses `mqtt_url` in `/etc/thryve/hal.toml` (default `mqtt://127.0.0.1:1883`; set `mqtt_username` and `mqtt_password` if your broker needs them). A device called **Gardyn** followed by the unit id appears with these entities:
 
 | Entity                           | Type          | Notes                                                                        |
 | -------------------------------- | ------------- | ---------------------------------------------------------------------------- |
@@ -55,11 +55,11 @@ It adds these entities to the same device:
 
 If the pump refuses a "water now" press (dry tank, latched fault), the refusal shows up on the daemon's own alert entities.
 
-Without the bridge, add the cameras as [generic cameras](https://www.home-assistant.io/integrations/generic/) with the still image URL `http://seedypod.local/api/camera/upper/latest.jpg` (and `lower`). It serves the newest stored still and never takes a capture ([ADR 0027](/developers/adr/0027-camera-exposure/)).
+Without the bridge, add the cameras as [generic cameras](https://www.home-assistant.io/integrations/generic/) with the still image URL `http://thryve.local/api/camera/upper/latest.jpg` (and `lower`). It serves the newest stored still and never takes a capture ([ADR 0027](/developers/adr/0027-camera-exposure/)).
 
 ## Example dashboard and automations
 
-The core repository has a ready-made [Lovelace view](https://github.com/seedypod/core/blob/a2f6b4c98085d6729f8c2f315237f87f759518e2/docs/homeassistant/lovelace-example.yaml) and [automations](https://github.com/seedypod/core/blob/a2f6b4c98085d6729f8c2f315237f87f759518e2/docs/homeassistant/automations-example.yaml). A notification when the tank runs low looks like this:
+The core repository has a ready-made [Lovelace view](https://github.com/kaniick/Thryve/blob/a2f6b4c98085d6729f8c2f315237f87f759518e2/docs/homeassistant/lovelace-example.yaml) and [automations](https://github.com/kaniick/Thryve/blob/a2f6b4c98085d6729f8c2f315237f87f759518e2/docs/homeassistant/automations-example.yaml). A notification when the tank runs low looks like this:
 
 ```yaml
 - alias: Gardyn — notify on water low

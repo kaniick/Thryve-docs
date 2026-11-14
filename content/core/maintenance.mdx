@@ -1,6 +1,6 @@
 ---
 title: 'Maintenance and self-repair'
-description: 'Routine care, what each alert means and how to clear it, health checks, backups, updates, and replacing parts on a seedypod unit.'
+description: 'Routine care, what each alert means and how to clear it, health checks, backups, updates, and replacing parts on a Thryve unit.'
 ---
 
 import { Callout } from 'nextra/components'
@@ -14,7 +14,7 @@ import { Callout } from 'nextra/components'
 This page covers keeping a unit healthy and fixing it yourself. Two kinds of
 advice are mixed here:
 
-- **seedypod behaviour** (alerts, commands, files) comes from the code and is
+- **Thryve behaviour** (alerts, commands, files) comes from the code and is
   tested on the simulator. The light, sensor, camera and update steps have also
   run on a real Gardyn 3.0; the pump and water-level steps haven't yet.
 - **Physical care** of the tower is general hydroponics practice. It isn't
@@ -23,7 +23,7 @@ advice are mixed here:
 
 ## Routine care
 
-| How often                           | What                                                                                  | seedypod helps by                                                                                                                                         |
+| How often                           | What                                                                                  | Thryve helps by                                                                                                                                           |
 | ----------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Weekly                              | Top up the tank. Add nutrients.                                                       | Tank level on the dashboard. `water_low` alert. The nutrient reminder (Settings → Grow reminders).                                                        |
 | Every 2–4 weeks, or each grow cycle | Drain the tank, wipe out algae and root debris, rinse the pump intake.                | `pump_fault` (dry run) if the pump starves. The pump-power tile shows a clogged pump drawing less or more than usual.                                     |
@@ -61,12 +61,12 @@ the end of its life.
 On the Pi:
 
 ```sh
-systemctl status hald seedypod-core mosquitto
+systemctl status hald thryve-core mosquitto
 journalctl -u hald -f                      # live daemon log
-hald --config /etc/seedypod/hal.toml --check   # config errors and planned devices
+hald --config /etc/thryve/hal.toml --check   # config errors and planned devices
 sudo i2cdetect -y 1                        # expected below
 hald --list-cameras                        # both cameras and their USB ports
-mosquitto_sub -v -t 'seedypod/#'           # everything hald publishes
+mosquitto_sub -v -t 'thryve/#'           # everything hald publishes
 curl -s localhost:3000/api/healthcheck
 ```
 
@@ -90,18 +90,18 @@ the page can take a minute on a unit. It never shows the contents of a row.
 
 ## Backups
 
-A backup is one file, `seedypod-backup-<unit>-<date>.tar.gz`, that holds
+A backup is one file, `thryve-backup-<unit>-<date>.tar.gz`, that holds
 everything needed to rebuild the unit on a new card:
 
-| In the bundle                   | From                                                                                                                                                                   |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `seedypod.db`                   | The database: settings, schedules, grow cycles, pods, Autopilot rules, alerts, telemetry, analysis results. Copied with SQLite's online backup, so core keeps running. |
-| `etc/seedypod/hal.toml`         | Pin map, limits and unit id.                                                                                                                                           |
-| `etc/mosquitto/seedypod.passwd` | The Home Assistant broker password, if `--mqtt-lan` made one.                                                                                                          |
-| `var/lib/seedypod/*.json`       | `hald`'s state: light level, dosing ledgers, probes added in the app (`sensors.json`).                                                                                 |
-| `homekit/*.json`                | HomeKit's identity and pairing keys, once HomeKit has been on (ADR 0023). Restored onto the same unit, it stays paired in Home.                                        |
-| `captures/`                     | Photos, only when you ask for them.                                                                                                                                    |
-| `manifest.json`                 | Unit, core and `hald` versions, database schema, creation time and a checksum per file.                                                                                |
+| In the bundle                 | From                                                                                                                                                                   |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `thryve.db`                   | The database: settings, schedules, grow cycles, pods, Autopilot rules, alerts, telemetry, analysis results. Copied with SQLite's online backup, so core keeps running. |
+| `etc/thryve/hal.toml`         | Pin map, limits and unit id.                                                                                                                                           |
+| `etc/mosquitto/thryve.passwd` | The Home Assistant broker password, if `--mqtt-lan` made one.                                                                                                          |
+| `var/lib/thryve/*.json`       | `hald`'s state: light level, dosing ledgers, probes added in the app (`sensors.json`).                                                                                 |
+| `homekit/*.json`              | HomeKit's identity and pairing keys, once HomeKit has been on (ADR 0023). Restored onto the same unit, it stays paired in Home.                                        |
+| `captures/`                   | Photos, only when you ask for them.                                                                                                                                    |
+| `manifest.json`               | Unit, core and `hald` versions, database schema, creation time and a checksum per file.                                                                                |
 
 There are two ways to get one off the card. A copy on the same card would die
 with it, so there is no local one.
@@ -121,10 +121,10 @@ If no backup has succeeded for 7 days, the **Backup overdue** alert comes up
 on Home, in **Alerts** and in Home Assistant.
 
 If **Settings → Backup** says a file was left out with "permission denied",
-rerun `install-hal`. It adds core's user to the `seedypod` group, which can
+rerun `install-hal`. It adds core's user to the `thryve` group, which can
 read `hald`'s files.
 
-From a script: `curl -OJ http://seedypod.local/api/backup/download`
+From a script: `curl -OJ http://thryve.local/api/backup/download`
 (`?photos=1` for photos). `GET /api/backup` shows the last backup, and
 `POST /api/backup/run` runs a bucket backup.
 
@@ -148,17 +148,17 @@ There are three ways to start one:
   the saved bucket, and asks before it replaces anything.
 - **`scripts/install --restore <file|url>`** from the shell.
 
-Each one runs the same root helper, `/usr/local/sbin/seedypod-restore`. It
-checks the bundle first. It refuses a file that isn't a seedypod backup,
+Each one runs the same root helper, `/usr/local/sbin/thryve-restore`. It
+checks the bundle first. It refuses a file that isn't a Thryve backup,
 has a damaged file, or comes from **newer** software than the unit runs. In
 that last case it names the core version to install first. Then it stops
-`seedypod-core` and `hald`, puts the files in place and starts both again.
+`thryve-core` and `hald`, puts the files in place and starts both again.
 Database migrations run on start, as on any update. It takes under a minute,
 and the page reloads when the unit is back.
 
 **Undo.** The replaced files are kept until the next restore. If you
 restored the wrong backup, use **Settings → Backup → Undo restore** (or
-`sudo seedypod-restore --undo`). A second undo redoes the restore.
+`sudo thryve-restore --undo`). A second undo redoes the restore.
 
 ## Check which camera is which
 
@@ -177,7 +177,7 @@ no need to open the base.
    each camera's port:
 
    ```sh
-   sudo hald --camera-rules upper=<port> lower=<port> | sudo tee /etc/udev/rules.d/70-seedypod-cameras.rules
+   sudo hald --camera-rules upper=<port> lower=<port> | sudo tee /etc/udev/rules.d/70-thryve-cameras.rules
    sudo udevadm control --reload
    sudo udevadm trigger --action=add --subsystem-match=video4linux
    sudo systemctl restart hald
@@ -222,11 +222,11 @@ A longer interval saves a little more wear and risks a little more history.
 To change it (1–60 minutes):
 
 ```bash
-curl -X PATCH http://seedypod.local/api/settings \
+curl -X PATCH http://thryve.local/api/settings \
   -H 'content-type: application/json' -d '{"telemetryFlushMin": 10}'
 ```
 
-If you query `seedypod.db` directly, the `telemetry` table lags the app by up
+If you query `thryve.db` directly, the `telemetry` table lags the app by up
 to one interval.
 
 ## Updates
@@ -241,10 +241,10 @@ long as core takes to start again, a few minutes on a Pi Zero. Nothing checks
 for updates unless you press the button. Over SSH, the same helper:
 
 ```sh
-sudo seedypod-update --check            # what's installed and what the channel has
-sudo seedypod-update --channel stable   # or dev; remembered
-sudo seedypod-update --now              # update, with its log on the terminal
-sudo seedypod-update --rollback         # put the previous version back
+sudo thryve-update --check            # what's installed and what the channel has
+sudo thryve-update --channel stable   # or dev; remembered
+sudo thryve-update --now              # update, with its log on the terminal
+sudo thryve-update --rollback         # put the previous version back
 ```
 
 The SSH login screen shows what the last check found, from the web or from
@@ -256,8 +256,8 @@ It replaces core and `hald`, not the rest of what the installers set up
 the helper refuses one, rerun the installers. They keep your config and data:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/seedypod/core/main/scripts/install-hal | sudo bash
-curl -fsSL https://raw.githubusercontent.com/seedypod/core/main/scripts/install | bash
+curl -fsSL https://raw.githubusercontent.com/kaniick/Thryve/main/scripts/install-hal | sudo bash
+curl -fsSL https://raw.githubusercontent.com/kaniick/Thryve/main/scripts/install | bash
 ```
 
 Database migrations run when core starts. **Settings → About** shows the
@@ -269,10 +269,10 @@ Power the unit off at the wall before opening it.
 
 - **SD card.** With a recent backup (in the bucket, or a downloaded file),
   replacing a dead card takes about fifteen minutes:
-  1. Flash [seedypod OS](/core/installation/#flash-seedypod-os-recommended) onto a
+  1. Flash [Thryve OS](/core/installation/#flash-thryve-os-recommended) onto a
      new card, ideally a high-endurance one, with the same Wi-Fi.
   2. Put the card in and power on.
-  3. Open `http://seedypod.local/`, choose **Restore from a backup**, and pick
+  3. Open `http://thryve.local/`, choose **Restore from a backup**, and pick
      the latest.
 
   On a card you're setting up by script, flash Raspberry Pi OS Lite
@@ -307,4 +307,4 @@ confirm the unit sees what it should.
 
 **Sources:** [hald reference](/developers/hal/) · [Gardyn hardware map](/developers/hardware/) · [Installation](/core/installation/) · [Adding a probe](/core/sensors/)
 
-**Imported from** [`docs/MAINTENANCE.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/MAINTENANCE.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/MAINTENANCE.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/MAINTENANCE.md) in kaniick/Thryve. Edit it there, not here.

@@ -20,7 +20,7 @@ only core knows: the grow cycle, reminders, light hours.
 
 `src/mqtt/bridge.ts` is an in-process MQTT client on the operator's broker
 ([sleepypod](https://sleepypod.github.io/core/integrations/) ADR 0019 shape): dormant until `settings.mqttUrl`, LWT on
-`seedypod/<unit>/core/availability`, TLS opt-in with a separate
+`thryve/<unit>/core/availability`, TLS opt-in with a separate
 `mqttTlsInsecure` flag, reconnects on settings change. It publishes retained
 discovery for reminder `binary_sensor`s with `button`s to mark them done,
 grow day/stage and light-hour `sensor`s, and a "water now" `button` whose
@@ -36,4 +36,4 @@ daemon's own alert entities).
 
 **Sources:** [sleepypod/core (conventions and ADR precedents)](https://github.com/sleepypod/core)
 
-**Imported from** [`docs/adr/0013-ha-bridge.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0013-ha-bridge.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/adr/0013-ha-bridge.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0013-ha-bridge.md) in kaniick/Thryve. Edit it there, not here.

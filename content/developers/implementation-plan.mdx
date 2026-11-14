@@ -12,7 +12,7 @@ import { Callout } from 'nextra/components'
 </Callout>
 
 **Status:** v3 — Phases 0, 3, 4, 5 and the software half of 7/8 built (2026-10-31); Phase 1 (hardware recon) and the Rust driver validation in Phase 2 need a real unit (status update 2026-11-09: bring-up on a Gardyn 3.0 began 2026-11-06, see [Handoff §7–8](/developers/handoff/#7-real-unit-bring-up-2026-11-06); pump and water-level validation remain) · **Date:** 2026-10-29 · **Author:** @ng (drafted with Claude)
-**Name:** seedypod (ADR-0001; drafted as leafypod). Repo: `seedypod/core`.
+**Name:** Thryve (ADR-0001; drafted as leafypod). Repo: `kaniick/Thryve`.
 
 Sibling project to [sleepypod](https://sleepypod.github.io/): a sealed consumer appliance (Gardyn hydroponic tower) whose embedded Linux controller (a Raspberry Pi) is re-flashed to run a local, cloud-free control stack. This plan mirrors sleepypod's conventions exactly (branching, CI, Codecov, Stryker, semantic-release, Renovate, Vercel demo, Nextra docs on Pages, ADRs, OKF knowledge bundle) so tooling and muscle memory carry over.
 
@@ -168,7 +168,7 @@ Goal: an empty-but-complete repo where `dev → main` already releases, docs dep
 
 | #    | Task                                                                                                                                                                                                                                                                                                                                                                                      | ∥            | Notes                                                                                               |
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------- |
-| 2.1  | ADR-0007 finalize **HAL contract** (freeze before 2.4 so core can start): MQTT topic tree, payload schemas (JSON, versioned `v1`), HTTP endpoints, HA discovery entity set, mDNS service `_seedypod-hal._tcp` with TXT `id`,`model`,`v`                                                                                                                                                   |              | the one artifact that unblocks Phase 3 in parallel                                                  |
+| 2.1  | ADR-0007 finalize **HAL contract** (freeze before 2.4 so core can start): MQTT topic tree, payload schemas (JSON, versioned `v1`), HTTP endpoints, HA discovery entity set, mDNS service `_thryve-hal._tcp` with TXT `id`,`model`,`v`                                                                                                                                                     |              | the one artifact that unblocks Phase 3 in parallel                                                  |
 | 2.2  | `hal-core`: `Sensor`/`Actuator` traits, config-driven registry (`hal.toml`: `[[sensor]] kind="ina219" addr=0x40`), unit types, `Reading{ts,value,unit,quality}`, reprobe-on-failure                                                                                                                                                                                                       | ⛔ 2.1       | pH/EC/RTD later are just more registry entries                                                      |
 | 2.3  | `hal-core::safety`: pump max-run timer, dry-run interlock (distance median vs threshold), over-temp cutoff (GPIO25 + PCT2075 hysteresis 34/36 °C), light sanity; **fault ⇒ latched off until `acknowledge`**; every actuator command passes through here                                                                                                                                  | ⛔ 2.2       | §0.2 items 1, 3, 6; unit-test exhaustively; ADR-0009 _Pump safety guard_ (sleepypod ADR-0022 shape) |
 | 2.4  | `hal-sim` backend: deterministic fake hardware (tank drains when pump runs, temp drifts, cameras serve fixtures). Used by `hald --sim`, by core's demo mode, and by CI                                                                                                                                                                                                                    | ∥ 2.3        |                                                                                                     |
@@ -221,7 +221,7 @@ Core is built against `hal-sim` from day one; real hardware only enters at 3.9.
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
 | 5.1 | HA: core-level bridge adds what HAL discovery can't (grow-cycle reminders as events, alerts, schedule enable switches, run-once service); `docs/homeassistant/lovelace-example.yaml`; ADR-0013 _MQTT bridge_ (copy ADR-0019) | HAL-only HA already works from Phase 2 |
 | 5.2 | HomeKit via `hap-nodejs` (light as Lightbulb, pump as Switch/Fan, sensors) — reuse [sleepypod](https://sleepypod.github.io/core/integrations/) identity derivation ADR-0020                                                  | optional                               |
-| 5.3 | iOS: evaluate forking `sleepypod/ios` shell (tRPC client, networking, mock client pattern) → `seedypod/ios`                                                                                                                  | optional; separate repo                |
+| 5.3 | iOS: evaluate forking `sleepypod/ios` shell (tRPC client, networking, mock client pattern) → `kaniick/Thryve-ios`                                                                                                            | optional; separate repo                |
 | 5.4 | M5 Dial / small physical controller for light+pump ([sleepypod](https://sleepypod.github.io/dial/) `m5-rotary-dial` pattern, mDNS discovery)                                                                                 | optional                               |
 | 5.5 | Notifications: HA is the delivery channel; no push service of our own                                                                                                                                                        | decision in ADR-0013                   |
 
@@ -299,7 +299,7 @@ Two people could run Phase 2 and Phase 3 fully in parallel after 2.1; one person
 
 ## 5. HAL contract v1 (draft for ADR-0007)
 
-Prefix `seedypod/<unit-id>/`. Retained where marked. Payloads JSON; numbers SI; `ts` ISO-8601.
+Prefix `thryve/<unit-id>/`. Retained where marked. Payloads JSON; numbers SI; `ts` ISO-8601.
 
 | Topic                                                          | Dir | Retained | Payload                                                                                                                                                             |
 | -------------------------------------------------------------- | --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -338,7 +338,7 @@ KR3.3 One other person liberates their unit from the docs alone (Phase 8 "done")
 
 ## 7. Open questions (answer before the phase that needs them)
 
-1. **Name.** Settled as `seedypod` (ADR-0001 amendment); still needs a domain + App Store check if an iOS app follows. (Phase 0, ADR-0001)
+1. **Name.** Settled as `thryve` (ADR-0001 amendment); still needs a domain + App Store check if an iOS app follows. (Phase 0, ADR-0001)
 2. **Which Gardyn do we have?** 1.0/2.0 (AM2320) vs 3.0/Studio (DHT20). Decides driver priority. (Phase 1.5)
 3. **Zero W or Zero 2 W inside?** Zero W ⇒ must cross-compile `armv6` and skip any on-device core. (Phase 1.1)
 4. **Single repo vs `hal` split out?** Plan assumes single repo (mirrors `modules/` precedent); revisit if Rust CI time dominates. (Phase 2.11)
@@ -349,4 +349,4 @@ KR3.3 One other person liberates their unit from the docs alone (Phase 8 "done")
 
 **Sources:** [sleepypod/core (conventions and ADR precedents)](https://github.com/sleepypod/core) · [iot-root/garden-of-eden (reference implementation, GPL-3; no code copied)](https://github.com/iot-root/garden-of-eden) · [Model Hardware Standard research preview](https://www.anthropic.com/news/model-hardware-standard-research-preview)
 
-**Imported from** [`docs/implementation-plan.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/implementation-plan.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/implementation-plan.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/implementation-plan.md) in kaniick/Thryve. Edit it there, not here.

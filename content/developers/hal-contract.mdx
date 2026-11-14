@@ -11,7 +11,7 @@ The HAL contract is the only interface between `hald` and core, and the interfac
 
 ## Conventions
 
-- MQTT topic prefix `seedypod/<unit-id>/`. The unit id comes from the Pi's serial number (`gardyn-<serial>`), never a shared default.
+- MQTT topic prefix `thryve/<unit-id>/`. The unit id comes from the Pi's serial number (`gardyn-<serial>`), never a shared default.
 - Payloads are JSON with SI units and RFC 3339 timestamps. QoS 1 throughout.
 - The contract version is the `contract` field of `system`. It is currently `1`.
 
@@ -103,8 +103,8 @@ Note the command above asked for level 100 and got 30: the pump's duty cap.
 ## Try it
 
 ```sh
-mosquitto_sub -v -t 'seedypod/#'
-mosquitto_pub -t 'seedypod/gardyn-1a2b3c4d/actuator/light/set' -m '{"on":true,"level":60}'
+mosquitto_sub -v -t 'thryve/#'
+mosquitto_pub -t 'thryve/gardyn-1a2b3c4d/actuator/light/set' -m '{"on":true,"level":60}'
 ```
 
 <Callout type="warning">
@@ -118,4 +118,4 @@ The contract lives twice: `hal/crates/hal-core/src/contract.rs` and `src/hardwar
 
 ---
 
-**Source:** [`hal/contract/`](https://github.com/seedypod/core/tree/a2f6b4c98085d6729f8c2f315237f87f759518e2/hal/contract) · [`src/hardware/contract.ts`](https://github.com/seedypod/core/blob/a2f6b4c98085d6729f8c2f315237f87f759518e2/src/hardware/contract.ts)
+**Source:** [`hal/contract/`](https://github.com/kaniick/Thryve/tree/a2f6b4c98085d6729f8c2f315237f87f759518e2/hal/contract) · [`src/hardware/contract.ts`](https://github.com/kaniick/Thryve/blob/a2f6b4c98085d6729f8c2f315237f87f759518e2/src/hardware/contract.ts)

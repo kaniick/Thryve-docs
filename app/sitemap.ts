@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
+import { SITE_URL } from '../site.config.mjs'
 export const dynamic = 'force-static'
 function paths(dir = 'content', prefix = ''): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
@@ -12,5 +13,5 @@ function paths(dir = 'content', prefix = ''): string[] {
   )
 }
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ['/', ...paths()].map((path) => ({ url: 'https://seedypod.github.io' + path }))
+  return ['/', ...paths()].map((path) => ({ url: SITE_URL + path }))
 }

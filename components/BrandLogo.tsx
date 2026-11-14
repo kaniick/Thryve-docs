@@ -1,8 +1,10 @@
+import { asset } from '../site.config.mjs'
+
 const logo = (tone: 'light' | 'dark') => (
   <img
     className={`brand-logo-${tone}`}
-    src={`/brand/${tone}/horizontal-340.png`}
-    alt="seedypod"
+    src={asset(`/brand/${tone}/horizontal-340.png`)}
+    alt="Thryve"
     width="340"
     height="120"
   />
@@ -15,7 +17,7 @@ export function BrandLogo({ tone }: { tone?: 'dark' }) {
   return (
     <span className="brand-logo">
       {tone === 'dark' ? (
-        <img src="/brand/dark/horizontal-340.png" alt="seedypod" width="340" height="120" />
+        <img src={asset('/brand/dark/horizontal-340.png')} alt="Thryve" width="340" height="120" />
       ) : (
         <>
           {logo('light')}

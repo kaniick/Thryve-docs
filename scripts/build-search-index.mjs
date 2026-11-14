@@ -2,13 +2,14 @@ import { createRequire } from 'node:module'
 import { readFile, readdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { gzipSync } from 'node:zlib'
+import { SITE_URL } from '../site.config.mjs'
 
 // Writes out/search-index.json for the Core command palette. Titles and anchors
 // come from the built HTML so they match what Nextra renders; descriptions and
 // keywords come from the MDX frontmatter.
 const require = createRequire(import.meta.url)
 const { parse: parseYaml } = createRequire(require.resolve('nextra'))('yaml')
-const base = 'https://seedypod.github.io'
+const base = SITE_URL
 
 const loadMeta = async (dir) => {
   const src = await readFile(join(dir, '_meta.ts'), 'utf8').catch(() => null)

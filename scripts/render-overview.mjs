@@ -1,5 +1,5 @@
 // Compose the overview video: original chapter typography around the unchanged
-// recordings from scripts/capture-overview.mjs. Writes public/media/seedypod-overview.{mp4,png},
+// recordings from scripts/capture-overview.mjs. Writes public/media/thryve-overview.{mp4,png},
 // their capture/manifest.json entries, and capture/overview.json (scenes and timeline).
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
@@ -70,7 +70,7 @@ const chapters = [
   },
 ]
 
-// The seedypod palette (core's --lp-* tokens): warm near-black, cream text, sage green.
+// The Thryve palette (core's --lp-* tokens): warm near-black, cream text, sage green.
 const C = {
   bg: '#11100c',
   glow: '#26301f',
@@ -85,7 +85,7 @@ const logoUri = 'data:image/png;base64,' + logo.toString('base64')
 const esc = (s) => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;')
 function background(c, ending = false) {
   const font = 'font-family="Helvetica"'
-  return `<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="glow"><stop stop-color="${C.glow}"/><stop offset="1" stop-color="${C.bg}"/></radialGradient></defs><rect width="1920" height="1080" fill="${C.bg}"/><ellipse cx="100" cy="30" rx="760" ry="650" fill="url(#glow)"/><image href="${logoUri}" x="52" y="40" width="227" height="80"/><path d="M60 140H390" stroke="${C.green}" stroke-width="2"/><text x="60" y="212" fill="${C.green}" font-size="15" letter-spacing="2" ${font}>${esc(c.kicker)}</text>${c.title.map((t, i) => `<text x="60" y="${320 + i * 65}" fill="${C.text}" font-size="48" font-weight="600" ${font}>${esc(t)}</text>`).join('')}${c.body.map((t, i) => `<text x="60" y="${520 + i * 36}" fill="${C.soft}" font-size="22" ${font}>${esc(t)}</text>`).join('')}<text x="60" y="970" fill="${C.soft}" font-size="18" ${font}>${ending ? 'seedypod.github.io' : 'seedypod core · real interface'}</text><text x="60" y="1002" fill="${C.muted}" font-size="17" ${font}>Simulated tower · demo data · silent tour</text><rect x="457" y="37" width="1446" height="1006" rx="3" fill="${C.frame}"/></svg>`
+  return `<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="glow"><stop stop-color="${C.glow}"/><stop offset="1" stop-color="${C.bg}"/></radialGradient></defs><rect width="1920" height="1080" fill="${C.bg}"/><ellipse cx="100" cy="30" rx="760" ry="650" fill="url(#glow)"/><image href="${logoUri}" x="52" y="40" width="227" height="80"/><path d="M60 140H390" stroke="${C.green}" stroke-width="2"/><text x="60" y="212" fill="${C.green}" font-size="15" letter-spacing="2" ${font}>${esc(c.kicker)}</text>${c.title.map((t, i) => `<text x="60" y="${320 + i * 65}" fill="${C.text}" font-size="48" font-weight="600" ${font}>${esc(t)}</text>`).join('')}${c.body.map((t, i) => `<text x="60" y="${520 + i * 36}" fill="${C.soft}" font-size="22" ${font}>${esc(t)}</text>`).join('')}<text x="60" y="970" fill="${C.soft}" font-size="18" ${font}>${ending ? 'kaniick.github.io/Thryve-docs' : 'thryve core · real interface'}</text><text x="60" y="1002" fill="${C.muted}" font-size="17" ${font}>Simulated tower · demo data · silent tour</text><rect x="457" y="37" width="1446" height="1006" rx="3" fill="${C.frame}"/></svg>`
 }
 
 const ff = (args) =>
@@ -162,7 +162,7 @@ async function still(name, c, seconds, image, ending = false) {
 await still(
   'intro',
   {
-    kicker: 'A TOUR OF SEEDYPOD',
+    kicker: 'A TOUR OF THRYVE',
     title: ['Your garden,', 'your rules.'],
     body: [
       'Lights, water, sensors and grow',
@@ -207,7 +207,7 @@ await still(
   {
     kicker: 'BRING YOUR TOWER HOME',
     title: ['Try it.', 'Grow your own.'],
-    body: ['Explore the live demo.', 'Read the install guide.', 'seedypod.github.io'],
+    body: ['Explore the live demo.', 'Read the install guide.', 'kaniick.github.io/Thryve-docs'],
   },
   4,
   'grow-start.png',
@@ -228,14 +228,14 @@ ff([
   'copy',
   '-movflags',
   '+faststart',
-  `${dir}/seedypod-overview.mp4`,
+  `${dir}/thryve-overview.mp4`,
 ])
 await sharp(`${dir}/render/intro.png`)
   .png({ compressionLevel: 9 })
-  .toFile(`${dir}/seedypod-overview.png`)
+  .toFile(`${dir}/thryve-overview.png`)
 
 const manifest = JSON.parse(await readFile('capture/manifest.json', 'utf8'))
-for (const output of ['seedypod-overview.mp4', 'seedypod-overview.png']) {
+for (const output of ['thryve-overview.mp4', 'thryve-overview.png']) {
   const bytes = await readFile(`${dir}/${output}`)
   let dimensions
   if (output.endsWith('.png')) {
@@ -247,14 +247,14 @@ for (const output of ['seedypod-overview.mp4', 'seedypod-overview.png']) {
     dimensions = { width: v.width, height: v.height, durationSeconds: Number(p.format.duration) }
   }
   const asset = {
-    repository: 'seedypod/core',
+    repository: 'kaniick/Thryve',
     commit: meta.sourceCommit,
     source: 'web demo build (VITE_DEMO=1), overview tour',
     output,
     method:
       'scripts/capture-overview.mjs + scripts/render-overview.mjs; ' +
       meta.method +
-      '; original chapter typography and the repository seedypod logo around unchanged UI recordings',
+      '; original chapter typography and the repository Thryve logo around unchanged UI recordings',
     sha256: createHash('sha256').update(bytes).digest('hex'),
     bytes: bytes.length,
     ...dimensions,

@@ -1,3 +1,4 @@
+import { BASE_PATH } from '../../site.config.mjs'
 import { BrandLogo } from '../../components/BrandLogo'
 import { LinkArrow } from '../../components/LinkArrow'
 import { Layout, Navbar, Footer } from 'nextra-theme-docs'
@@ -13,15 +14,15 @@ export default async function DocsLayout({ children }: { children: React.ReactNo
               <span className="docs-label">/ docs</span>
             </span>
           }
-          projectLink="https://github.com/seedypod"
+          projectLink="https://github.com/kaniick"
           chatLink="https://discord.gg/UMmv5R6MXa"
         />
       }
       footer={
         <Footer>
           <span>
-            seedypod · Your garden, your rules.{' '}
-            <a href="/">
+            Thryve · Your garden, your rules.{' '}
+            <a href={BASE_PATH + '/'}>
               Back to home <LinkArrow />
             </a>
             {' · '}
@@ -32,10 +33,10 @@ export default async function DocsLayout({ children }: { children: React.ReactNo
         </Footer>
       }
       pageMap={await getPageMap()}
-      docsRepositoryBase="https://github.com/seedypod/seedypod.github.io/tree/main"
+      docsRepositoryBase="https://github.com/kaniick/Thryve-docs/tree/main"
       feedback={{
         content: 'Found an issue?',
-        link: 'https://github.com/seedypod/seedypod.github.io/issues',
+        link: 'https://github.com/kaniick/Thryve-docs/issues',
       }}
       nextThemes={{ defaultTheme: 'dark' }}
     >

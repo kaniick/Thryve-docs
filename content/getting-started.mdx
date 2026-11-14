@@ -1,27 +1,27 @@
 ---
 title: 'Get started'
-description: 'Try seedypod in your browser, run it on your laptop, or install it on the Pi inside your Gardyn.'
+description: 'Try Thryve in your browser, run it on your laptop, or install it on the Pi inside your Gardyn.'
 ---
 
 import { Cards } from 'nextra/components'
 
 # Get started
 
-seedypod gives you local, cloud-free control of a Gardyn hydroponic tower. It runs on the Raspberry Pi already inside the unit and replaces the Gardyn cloud with two pieces of software:
+Thryve gives you local, cloud-free control of a Gardyn hydroponic tower. It runs on the Raspberry Pi already inside the unit and replaces the Gardyn cloud with two pieces of software:
 
 - **`hald`**, a small Rust daemon that owns the pins and buses: grow light, pump, water level, temperature and humidity, power monitor, cameras and the button.
-- **seedypod core**, a server with a web UI, schedules, grow-cycle reminders, alerts, a REST API, an MCP endpoint for AI agents, and a Home Assistant bridge.
+- **Thryve core**, a server with a web UI, schedules, grow-cycle reminders, alerts, a REST API, an MCP endpoint for AI agents, and a Home Assistant bridge.
 
 ## 1. Try the live demo
 
-The fastest way to see seedypod is the [live demo](https://seedypod.vercel.app). It runs the real web UI against a simulated tower inside your browser, with seeded history: a grow cycle in progress, 24 planted pods, a light curve and a watering schedule. It talks to no backend, so nothing you do there leaves your browser.
+The fastest way to see Thryve is the [live demo](https://seedypod.vercel.app). It runs the real web UI against a simulated tower inside your browser, with seeded history: a grow cycle in progress, 24 planted pods, a light curve and a watering schedule. It talks to no backend, so nothing you do there leaves your browser. The demo is hosted by the original SeedyPod project, so it still shows SeedyPod branding; the UI is otherwise the same.
 
 ## 2. Run it on your computer
 
 No Gardyn needed. You need Node 24, pnpm and (for the daemon) a Rust toolchain.
 
 ```sh
-git clone https://github.com/seedypod/core.git
+git clone https://github.com/kaniick/Thryve.git
 cd core
 pnpm install
 pnpm dev            # core on :3000 with the simulated HAL, web UI on :5173
@@ -37,7 +37,7 @@ cargo run --manifest-path hal/Cargo.toml -p hald -- --sim --stdout --ticks 3
 
 ## 3. Install on a Gardyn
 
-When you are ready to open the base, follow the [installation guide](/core/installation/). Before anything else, back up the stock microSD card: with that image, a mistake costs you a five-minute reflash. Then flash **seedypod OS** with Raspberry Pi Imager, set your login and Wi-Fi, and open `http://seedypod.local/` after boot. The image already includes `hald`, core and their dependencies; there is nothing to compile on the Pi. The [installation guide](/core/installation/#choose-an-install-path) also covers installing onto an existing Raspberry Pi OS.
+When you are ready to open the base, follow the [installation guide](/core/installation/). Before anything else, back up the stock microSD card: with that image, a mistake costs you a five-minute reflash. Then flash **Thryve OS** with Raspberry Pi Imager, set your login and Wi-Fi, and open `http://thryve.local/` after boot. The image already includes `hald`, core and their dependencies; there is nothing to compile on the Pi. The [installation guide](/core/installation/#choose-an-install-path) also covers installing onto an existing Raspberry Pi OS.
 
 On the first measured Pi Zero W, the image served the web app **4 minutes 31 seconds after power-on**, excluding download and card-writing time. See the [performance measurements](/core/installation/performance/) for update times, idle resource use and the limits of those observations.
 

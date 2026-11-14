@@ -2,18 +2,19 @@ import type { Metadata } from 'next'
 import { Head } from 'nextra/components'
 import 'nextra-theme-docs/style.css'
 import './global.css'
+import { SITE_URL, asset } from '../site.config.mjs'
 export const metadata: Metadata = {
-  metadataBase: new URL('https://seedypod.github.io'),
-  title: { default: 'seedypod — Your garden, your rules.', template: '%s — seedypod' },
+  metadataBase: new URL(SITE_URL),
+  title: { default: 'Thryve — Your garden, your rules.', template: '%s — Thryve' },
   description:
     'Local, cloud-free control for Gardyn hydroponic towers: a Rust hardware daemon, a tRPC/REST/MCP server, a web UI, and Home Assistant.',
-  openGraph: { siteName: 'seedypod', type: 'website' },
+  openGraph: { siteName: 'Thryve', type: 'website' },
   icons: {
     icon: [
-      { url: '/brand/icon-32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/brand/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: asset('/brand/icon-32.png'), sizes: '32x32', type: 'image/png' },
+      { url: asset('/brand/icon-192.png'), sizes: '192x192', type: 'image/png' },
     ],
-    apple: [{ url: '/brand/icon-180.png', sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: asset('/brand/icon-180.png'), sizes: '180x180', type: 'image/png' }],
   },
 }
 export default function RootLayout({ children }: { children: React.ReactNode }) {

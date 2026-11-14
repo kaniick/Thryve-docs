@@ -12,7 +12,7 @@ import { Callout } from 'nextra/components'
 
 ## Context
 
-Everything seedypod does on its own is **time-triggered**:
+Everything Thryve does on its own is **time-triggered**:
 
 - Light curves and pump cycles fire from the scheduler.
 - Grow reminders fire from the grow engine.
@@ -45,7 +45,7 @@ core can be ported directly.
 What doesn't port is the output side:
 
 - sleepypod arbitrates bed-temperature "leases" per side.
-- seedypod has one light, one pump, up to four dosers, and pods.
+- Thryve has one light, one pump, up to four dosers, and pods.
 
 Of these, only the light is a **continuous** setpoint that a rule, a schedule and
 a person could fight over. Pump runs and doses are bounded one-shots, already
@@ -95,7 +95,7 @@ The AST is ported from sleepypod `src/automation/types.ts`.
 - The catalog is served by the router, so the rule builder only offers keys that
   exist and the units each one uses.
 
-### Actions: seedypod's verbs, through the normal paths
+### Actions: Thryve's verbs, through the normal paths
 
 | Action                       | Goes through                                                                                                                                            | Bounded by                                                                            |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
@@ -129,7 +129,7 @@ The arbiter writes only when the resolved level changes. While a higher source
 is in charge, the schedule's clock keeps running. That way, when a hold
 expires, the light resolves to the current curve point and doesn't replay old
 ones. This is the precedence [sleepypod](https://sleepypod.github.io/core/autopilot-engine/) reached in its revision of ADR 0023,
-minus run-once sessions, which seedypod doesn't have.
+minus run-once sessions, which Thryve doesn't have.
 
 ### Safety
 
@@ -218,7 +218,7 @@ It uses forms, not a node graph, for the reasons sleepypod gives.
 - **Home Assistant automations instead.**
   - HA already sees every entity and can automate them.
   - Not every owner runs HA. HA can't see analysis signals or backtest against
-    seedypod's history. And HA cutting out would stop the garden's own rules.
+    Thryve's history. And HA cutting out would stop the garden's own rules.
   - The two coexist: HA commands count as manual through the arbiter.
 - **Rules in `hald`.**
   - Rejected. `hald` is the safety floor and stays small (ADR 0004).
@@ -262,4 +262,4 @@ Code:
 
 **Sources:** [sleepypod ADR 0023: Reactive automations engine (Autopilot)](https://github.com/sleepypod/core/blob/dev/docs/adr/0023-autopilot-reactive-automations.md) · [ADR 0004: Two tiers — hardware daemon and core](/developers/adr/0004-two-tier-hal-core/) · [ADR 0009: Pump safety guard](/developers/adr/0009-pump-safety-guard/) · [ADR 0014: Auto-dosing safety](/developers/adr/0014-auto-dosing-safety/) · [ADR 0015: Event bus and mutation broadcast](/developers/adr/0015-event-bus/) · [ADR 0019: Pluggable capture analysis](/developers/adr/0019-pluggable-capture-analysis/)
 
-**Imported from** [`docs/adr/0020-autopilot-reactive-automations.md`](https://github.com/seedypod/core/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0020-autopilot-reactive-automations.md) in seedypod/core. Edit it there, not here.
+**Imported from** [`docs/adr/0020-autopilot-reactive-automations.md`](https://github.com/kaniick/Thryve/blob/8555939d7ff27202ce6b37de427fc150af4be6ba/docs/adr/0020-autopilot-reactive-automations.md) in kaniick/Thryve. Edit it there, not here.

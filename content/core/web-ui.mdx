@@ -1,29 +1,30 @@
 ---
 title: 'Web UI tour'
-description: 'Every screen of the seedypod web UI, from the 3D tower on Home to the wall-display kiosk.'
+description: 'Every screen of the Thryve web UI, from the 3D tower on Home to the wall-display kiosk.'
 ---
 
 import { Callout } from 'nextra/components'
 
 # Web UI tour
 
-Open `http://seedypod.local` from any browser on your network (`:3000` works too; see [Install](/core/installation/#open-the-app)). Changes made anywhere, including from Home Assistant, the Home app, an agent or a schedule, appear immediately: the UI listens to core's live event stream instead of polling.
+Open `http://thryve.local` from any browser on your network (`:3000` works too; see [Install](/core/installation/#open-the-app)). Changes made anywhere, including from Home Assistant, the Home app, an agent or a schedule, appear immediately: the UI listens to core's live event stream instead of polling.
 
 The sidebar groups thirteen screens: **Garden** (Home, Grow, Plan, Care), **Control** (Light, Water, Autopilot), **Observe** (Cameras, Analysis) and **System** (Status, Sensors), with **Alerts** and **Settings** at the foot. Above them, **Search** (⌘K) finds any screen, setting or docs page, and a summary keeps the light, tank and air readings and a **Needs you** list in view. On a phone a tab bar holds Home, Grow, Light, Water and Settings.
 
 <Callout>
   These screenshots are the real web UI from the [live demo](https://seedypod.vercel.app), which
-  runs against a simulated tower with seeded history: day 19 of a grow, 24 planted pods.
+  runs against a simulated tower with seeded history: day 19 of a grow, 24 planted pods. They were
+  captured before the rebrand, so they still show the original SeedyPod name and logo.
 </Callout>
 
 <Demo
-  src="/media/seedypod-overview.mp4"
-  poster="/media/seedypod-overview.png"
+  src="/media/thryve-overview.mp4"
+  poster="/media/thryve-overview.png"
   title="Your garden, your rules."
   wide
 >
   A one-minute silent tour of the real web UI against the simulated tower. [Download the overview
-  video](/media/seedypod-overview.mp4).
+  video](/media/thryve-overview.mp4).
 </Demo>
 
 ## Welcome
@@ -170,10 +171,10 @@ Sections down the side: unit name, timezone, the unit's location for [Auto light
 
 ## Kiosk
 
-`http://seedypod.local/kiosk` is a wall-display mode: big numbers for the tank, air temperature, humidity, light and pump, plus any active alerts, with no sidebar. It refreshes on its own every few seconds.
+`http://thryve.local/kiosk` is a wall-display mode: big numbers for the tank, air temperature, humidity, light and pump, plus any active alerts, with no sidebar. It refreshes on its own every few seconds.
 
 <BrowserFrame
-  address="seedypod.local/kiosk"
+  address="thryve.local/kiosk"
   src="/media/core-kiosk.png"
   alt="Kiosk mode showing large tank, air, humidity, light and pump tiles"
 />
