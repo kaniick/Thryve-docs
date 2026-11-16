@@ -9,7 +9,7 @@ import { Callout } from 'nextra/components'
 
 Open `http://thryve.local` from any browser on your network (`:3000` works too; see [Install](/core/installation/#open-the-app)). Changes made anywhere, including from Home Assistant, the Home app, an agent or a schedule, appear immediately: the UI listens to core's live event stream instead of polling.
 
-The sidebar groups thirteen screens: **Garden** (Home, Grow, Plan, Care), **Control** (Light, Water, Autopilot), **Observe** (Cameras, Analysis) and **System** (Status, Sensors), with **Alerts** and **Settings** at the foot. Above them, **Search** (⌘K) finds any screen, setting or docs page, and a summary keeps the light, tank and air readings and a **Needs you** list in view. On a phone a tab bar holds Home, Grow, Light, Water and Settings.
+The sidebar groups fourteen screens: **Garden** (Home, Grow, Plan, Care), **Control** (Light, Water, Autopilot, Notifications), **Observe** (Cameras, Analysis) and **System** (Status, Sensors), with **Alerts** and **Settings** at the foot. Above them, **Search** (⌘K) finds any screen, setting or docs page, and a summary keeps the light, tank and air readings and a **Needs you** list in view. On a phone a tab bar holds Home, Grow, Light, Water and Settings.
 
 <Callout>
   These screenshots are the real web UI against a simulated tower with seeded history: day 19 of a
@@ -89,6 +89,10 @@ If the pump is latched off after a fault, the header says what tripped it (`pump
 ### Autopilot
 
 Rules that act on readings rather than the clock: notify you, set the light, run the pump or a doser, or flag a pod when a condition holds. Each rule reads back as a sentence, starts in dry run, and shows a 7-day backtest before you arm it. A timeline of the last 24 hours and an activity log say what each rule did or would have done, and the switch at the top turns them all off. See [Autopilot](/core/autopilot/).
+
+### Notifications
+
+IF/THEN push rules for Pushover, Pushbullet or an Apprise API you run. Add a channel, then a rule — a pump fault, a low tank, a pod that's ready — with a cooldown and quiet hours so a flapping sensor doesn't spam you. Autopilot's notify action still only raises an in-app alert; these rules are what reach a phone. See [Notifications](/core/notifications/).
 
 <BrowserFrame
   src="/media/core-autopilot.png"

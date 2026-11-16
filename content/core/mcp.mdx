@@ -34,6 +34,8 @@ All 60 tools as of core `8555939` (`src/mcp/server.ts`). The planner's write too
 | `list_tank_actions`   | read  | The tank log, newest first: what was done to the tank and when.                                                                            |
 | `log_tank_action`     | write | Record something a person did to the tank, in their words and amounts. Touches no hardware.                                                |
 | `list_automations`    | read  | Autopilot rules, whether each is armed or in dry run, who owns the light, and the run log.                                                 |
+| `list_notification_channels` | read | Push channels (Pushover, Pushbullet, Apprise API); secrets are masked.                                                              |
+| `list_notification_rules`    | read | IF/THEN notification rules, the kill switch, and recent history.                                                                    |
 | `starter_rules`       | read  | Cited, notify-only starter Autopilot rules, and whether the unit has the sensors for each.                                                 |
 | `backtest_automation` | read  | Replay a saved or draft Autopilot rule over recorded history, touching nothing.                                                            |
 
@@ -44,6 +46,10 @@ All 60 tools as of core `8555939` (`src/mcp/server.ts`). The planner's write too
 | `list_schedules`        | read  | Light curves and pump cycles with their day masks, and each curve's hours of full light and Gardyn's rating.                                               |
 | `light_presets`         | read  | Starting points for a light curve, and Gardyn's 14–16 hour guidance to judge one by.                                                                       |
 | `pump_presets`          | read  | Watering starting points by growth stage, and the one recommended for this tower.                                                                          |
+| `set_notification_channel` | write | Create or update a push channel. Tokens are write-only. Confirm first.                                                           |
+| `set_notification_rule`    | write | Create or update an IF/THEN notification rule. Confirm before enabling.                                                          |
+| `test_notification_channel` / `test_notification_rule` | write | Send a real test push. Confirm first.                                                                      |
+| `set_notifications_enabled` | write | The notifications kill switch. Confirm first.                                                                                   |
 | `set_light`             | write | Turn the light on or off and set brightness. It holds for 30 minutes, then the schedule or Autopilot takes over.                                           |
 | `light_auto`            | write | Turn Auto light on or off. On, the curve that follows the sun runs alone; off, the curves it switched off come back.                                       |
 | `run_pump`              | write | Run the pump for a bounded time; the HAL clamps it and refuses on a low tank or a fault.                                                                   |

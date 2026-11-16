@@ -6,6 +6,7 @@ export default {
   'web-ui': 'Web UI tour',
   schedules: 'Schedules',
   autopilot: 'Autopilot',
+  notifications: 'Notifications',
   'grow-cycle': 'Grow cycle and pods',
   sensors: 'Adding a probe',
   feeding: 'Feeding and water quality',

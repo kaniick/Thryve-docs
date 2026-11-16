@@ -13,8 +13,9 @@ Thryve makes **no outbound connections unless you configure one**. There is no a
 - **Camera stills and timelapses** stay on the unit, or on the core host you chose, and are served only on your LAN.
 - **MQTT** traffic goes only to brokers you configure, such as your Home Assistant broker.
 - A local **`pnpm dev`** or `VITE_DEMO=1` build runs a simulator in your browser and talks to no backend.
+- **Notifications** are off until you add a Pushover, Pushbullet or Apprise API channel. When a rule fires, only the rendered title and message leave the unit for that service. Tokens stay on the unit and are returned masked.
 - **Off-device storage** is opt-in. With an S3-compatible bucket saved in **Settings → Off-device storage and analysis**, new stills are copied to it, and a **backup** of the unit goes to `backups/` there every night. The bucket is yours, and Thryve talks to no other service.
-- A **backup download** goes only to the browser that asked for it. A backup holds the unit's secrets (bucket keys, MQTT password), so keep it somewhere private.
+- A **backup download** goes only to the browser that asked for it. A backup holds the unit's secrets (bucket keys, MQTT password, notification tokens), so keep it somewhere private.
 
 ## Who can reach it
 

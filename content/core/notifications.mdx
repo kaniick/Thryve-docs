@@ -1,0 +1,62 @@
+---
+title: 'Notifications'
+description: 'IF/THEN push rules for Pushover, Pushbullet and an Apprise API: add a channel, build a rule, and get a message when the tank is low or the pump trips.'
+---
+
+import { Callout } from 'nextra/components'
+
+# Notifications
+
+<Callout>
+  Notifications ship in Thryve after v2.1.1 (the current development branch). They are not in the v2.1.1 stable release.
+</Callout>
+
+Schedules and [Autopilot](/core/autopilot/) act on the unit. Autopilot's *notify* action still only raises an **in-app alert**. To get a message on your phone, open **Notifications** in the sidebar (under Control) and add a channel plus a rule.
+
+**Settings → Notifications** holds the same kill switch and quiet hours, with a link to channels and rules.
+
+## Channels
+
+Add a channel first. Tokens stay on the unit: the app shows only the last four characters, and they never appear in the journal or a dataset export. A full backup of the unit includes them, like the MQTT password.
+
+### Pushover
+
+1. In the [Pushover dashboard](https://pushover.net), copy your **user key**.
+2. Create an [application](https://pushover.net/apps/build) and copy its **API token**.
+3. In Thryve: Notifications → Add channel → Pushover. Paste the user key and token. You can optionally limit the message to one device, pick a sound, and set emergency retry/expire (used when a rule's priority is *emergency*).
+4. Press **Send test**. You should see `Thryve: test (…)` on the phone or desktop client.
+
+### Pushbullet
+
+Paste an **access token** from Pushbullet settings. You may also set a device iden or a channel tag. **Send test** posts a note.
+
+### Apprise
+
+Thryve does not install the Python Apprise package on the Pi. It talks HTTP to an [Apprise API](https://github.com/caronc/apprise-api) server you run, for example:
+
+```bash
+docker run --name apprise -p 8000:8000 caronc/apprise:latest
+```
+
+Set the API URL (`http://apprise.local:8000`), an optional config key, an optional API key if you locked the server down, and/or raw Apprise URLs (these often contain tokens and are stored as secrets).
+
+## Rules
+
+A rule is the same idea as Autopilot — IF this, THEN that — but it only sends a push:
+
+- **When:** an event (pump fault, dry-run, brown-out, alert raised or cleared, a pod needs attention or is ready to harvest, a care task is due, light on or off, an update is available, the unit goes offline or comes back, a camera/analysis finding); a sensor threshold (tank level, air or water temperature, humidity, EC, pH); a reading changing; a time of day; or every N minutes.
+- **If (optional):** a time window, days of the week, or a reading held for N minutes.
+- **Then:** notify one or more channels (or every enabled channel) with a title and message, at a priority.
+
+Titles and messages accept variables such as `{{unit.name}}`, `{{eventLabel}}`, `{{alert.detail}}`, `{{sensor.water_level_pct}}`, `{{pod.slot}}`, `{{update.tag}}` and `{{time}}`.
+
+Starter templates — **Pump fault**, **Tank low**, **Unit offline** — save **off** until you turn one on.
+
+A **cooldown** (60 minutes by default) and **dedup** stop a flapping tank sensor from spamming you. **Quiet hours** can be set for the whole unit and per rule; a rule can ignore them (the pump-fault starter does). Turn the switch at the top of the page off to stop every rule.
+
+## Limits
+
+- The unit must be able to reach the provider (or your Apprise API) on the network. There is no Thryve-hosted push service.
+- Apprise only works through an API server you run, not as a library on the Pi.
+- Autopilot hardware actions are unchanged. Notifications never start the pump or set the light.
+- Delivery depends on the provider (Pushover delivery receipts, Pushbullet device choice, Apprise configuration).
